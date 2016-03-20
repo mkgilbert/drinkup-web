@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -8,9 +9,12 @@ class Business(models.Model):
         ('table', 'Table-Service'),
         ('both', 'Self-Service and Table-Service')
     )
-    user = models.OneToOneField(User)
-    name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=10, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    phone_regex = RegexValidator(regex=r'^\d{10}$',
+                                message="Phone number must be in the format '9285551234' and must be exactly 10 digits.")
+    # employs the above defined regex
+    phone = models.CharField(max_length=10, validators=[phone_regex], null=True, blank=True)
+    venue_name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
     website = models.CharField(max_length=255, null=True, blank=True)
