@@ -4,5 +4,5 @@ from django.contrib.auth.models import User
 
 def home(request, user_id):
     user = User.objects.get(pk=user_id)
-    business = Business.objects.get(user=user)
-    return render(request, "main/home.html", {'user': user, 'business': business})
+    businesses = user.business_set.all()
+    return render(request, "main/home.html", {'user': user, 'businesses': businesses})

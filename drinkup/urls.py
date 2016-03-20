@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from main.views import (home, user_session, index)
+from django.views.generic.edit import CreateView
+from django.contrib.auth.forms import UserCreationForm
+from main.views import (home, user_session, index, registration)
 
 urlpatterns = [
     url(r'^login/', user_session.user_login, name='user_login'),
     url(r'^logout/', user_session.user_logout, name='user_logout'),
+    url(r'^register/', CreateView.as_view(template_name='register.html',
+                                          form_class=UserCreationForm,
+                                          success_url='/success/')),
+    url(r'^success/', registration.success, name="success"),
     url(r'^$', index, name='index'),
     url(r'^user/home/(?P<user_id>\d+)/$', home, name='home'),
     url(r'^admin/', admin.site.urls),
