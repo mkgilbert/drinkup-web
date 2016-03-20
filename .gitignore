@@ -1,0 +1,6 @@
+*.py[cod]
+# IntelliJ project files
+.idea
+*.iml
+*.sqlite3
+
