@@ -7,7 +7,7 @@
     {% if businesses %}
         <h4>Here are your registered venues:</h4>
         {% for business in businesses %}
-            {{ business.venue_name }}
+            {{ business.name }}
             <ul>
                 <li>Hours: {{ business.hours }}</li>
                 <li>Address: {{ business.address }}</li>
@@ -18,4 +18,5 @@
     {% else %}
         <h4>You haven't registered any venues</h4>
     {% endif %}
+    <a href="{% url 'venue_add' user.id %}">Add a Venue</a>
 {% endblock %}

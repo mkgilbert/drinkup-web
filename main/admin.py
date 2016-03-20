@@ -1,5 +1,5 @@
 from django.contrib import admin
-from main.models.business import Business
+from main.models import Venue
 
-class BusinessAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'email', 'address', 'description', 'website', )
+class VenueAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'address', 'description', 'website', )

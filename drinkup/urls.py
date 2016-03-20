@@ -17,7 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
-from main.views import (home, user_session, index, registration)
+from main.views import (home,
+                        user_session,
+                        index,
+                        registration,
+                        venue)
 
 urlpatterns = [
     url(r'^login/', user_session.user_login, name='user_login'),
@@ -27,6 +31,10 @@ urlpatterns = [
                                           success_url='/success/')),
     url(r'^success/', registration.success, name="success"),
     url(r'^$', index, name='index'),
+
     url(r'^user/home/(?P<user_id>\d+)/$', home, name='home'),
+
+    url(r'user/add-venue/(?P<user_id>\d+)/$', venue.add, name='venue_add'),
+
     url(r'^admin/', admin.site.urls),
 ]
