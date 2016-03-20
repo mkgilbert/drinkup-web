@@ -18,7 +18,7 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('/')
+                return HttpResponseRedirect('/user/home/' + str(user.pk))
             else:
                 messages.error(request, 'Incorrect username or password')
                 return HttpResponseRedirect('/login/')
