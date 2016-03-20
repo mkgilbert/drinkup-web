@@ -1,6 +1,6 @@
 *.py[cod]
 # IntelliJ project files
-.idea
+.idea/
 *.iml
 *.sqlite3
 
