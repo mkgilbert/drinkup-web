@@ -13,16 +13,6 @@ def add(request, user_id):
             new_venue = form.save(commit=False)
             new_venue.user = User.objects.get(pk=user_id)
             new_venue.save()
-            # Venue.objects.create(
-            #     user = User.objects.get(pk=user_id),
-            #     phone = form.cleaned_data['phone'],
-            #     name = form.cleaned_data['name'],
-            #     address = form.cleaned_data['address'],
-            #     description = form.cleaned_data['description'],
-            #     website = form.cleaned_data['website'],
-            #     hours = form.cleaned_data['hours'],
-            #     service_type = form.cleaned_data['service_type']
-            # )
             messages.success(request, "Venue successfully added")
             return HttpResponseRedirect('/user/home/' + str(user_id))
     elif request.method == 'GET':

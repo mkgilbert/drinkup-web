@@ -4,15 +4,15 @@
     <h1>Drink Up!</h1>
     <a href="/logout/">logout</a>
     <h3>Welcome, {{ user.username }}</h3>
-    {% if businesses %}
+    {% if venues %}
         <h4>Here are your registered venues:</h4>
-        {% for business in businesses %}
-            {{ business.name }}
+        {% for venue in venues %}
+            {{ venue.name }}
             <ul>
-                <li>Hours: {{ business.hours }}</li>
-                <li>Address: {{ business.address }}</li>
-                <li>Phone: {{ business.phone }}</li>
-                <li>Service Type: {{ business.service_type }}</li>
+                <li>Hours: {{ venue.hours }}</li>
+                <li>Address: {{ venue.address }}</li>
+                <li>Phone: {{ venue.phone }}</li>
+                <li>Service Type: {{ venue.service_type }}</li>
             </ul>
         {% endfor %}
     {% else %}
