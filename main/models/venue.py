@@ -16,8 +16,8 @@ class Venue(models.Model):
     phone = models.CharField(max_length=10, validators=[phone_regex], null=True, blank=True)
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
-    _lat = models.FloatField()
-    _lon = models.FloatField()
+    _lat = models.FloatField(default=35.177438) # engineering bldg @ NAU
+    _lon = models.FloatField(default=-111.657051)
     description = models.TextField(null=True, blank=True)
     website = models.CharField(max_length=255, null=True, blank=True)
     hours = models.CharField(max_length=255, null=True, blank=True)
