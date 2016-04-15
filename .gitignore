@@ -4,3 +4,4 @@
 *.iml
 *.sqlite3
 
+main/migrations/0001_initial.py
