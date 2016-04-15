@@ -17,11 +17,13 @@
                 {% if venue == menu.venue %}
                     {{ menu.name }}
                     <ul>
-                        <li>Edit: <a href="menu/{{ menu.id }}/">test</a></li>
+                        <li>Edit Menu Items: <a href="menu/{{ menu.id }}/">Link</a></li>
                         <li>Description: {{ menu.description }}</li></li>
                     </ul>
                 {% endif %}
             {% endfor %}
+
+            <a href="{% url 'menu_add' user.id venue.id %}">Add a Menu</a>
             </ul>
 
         {% endfor %}
