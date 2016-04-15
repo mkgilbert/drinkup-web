@@ -10,7 +10,7 @@
                 {% if item.menu == menu %}
                     {{ item.name }}
                     <ul>
-                        <li>Edit: <a href="#">test</a></li>
+                        <li>Edit: <a href="{% url 'item_edit' user.id menu.id item.id %}">test</a></li>
                         <li>Category: {% if item.category == 'b' %}Beer{% endif %}
                                       {% if item.category == 'w' %}Wine{% endif %}
                                       {% if item.category == 'm' %}Mixed Drink{% endif %}
