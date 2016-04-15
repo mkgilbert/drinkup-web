@@ -21,7 +21,9 @@ from main.views import (home,
                         user_session,
                         index,
                         registration,
-                        venue)
+                        venue,
+                        menu,
+                        item)
 
 urlpatterns = [
     url(r'^login/', user_session.user_login, name='user_login'),
@@ -35,6 +37,10 @@ urlpatterns = [
     url(r'^user/home/(?P<user_id>\d+)/$', home, name='home'),
 
     url(r'user/add-venue/(?P<user_id>\d+)/$', venue.add, name='venue_add'),
+
+    url(r'^user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/$', menu, name='home'),
+
+    url(r'user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/add-item$', item.add, name='item_add'),
 
     url(r'^admin/', admin.site.urls),
 ]
