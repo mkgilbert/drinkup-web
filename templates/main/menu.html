@@ -11,6 +11,12 @@
                     {{ item.name }}
                     <ul>
                         <li>Edit: <a href="#">test</a></li>
+                        <li>Category: {% if item.category == 'b' %}Beer{% endif %}
+                                      {% if item.category == 'w' %}Wine{% endif %}
+                                      {% if item.category == 'm' %}Mixed Drink{% endif %}
+                                      {% if item.category == 'h' %}Hard Liquor{% endif %}
+                                      {% if item.category == 's' %}Soft Drink{% endif %}
+                                      {% if item.category == 'o' %}Other{% endif %}</li>
                         <li>Price: ${{ item.price }}</li>
                     </ul>
                 {% endif %}
@@ -20,6 +26,6 @@
     {% else %}
         <h4>You haven't registered any venues</h4>
     {% endif %}
-    <a href="#">Add an item</a>
+    <a href="{% url 'item_add' user.id menu.id %}">Add an item</a>
     <a href="{% url 'home' user.id %}">Back</a>
 {% endblock %}
