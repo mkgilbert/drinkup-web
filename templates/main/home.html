@@ -13,8 +13,19 @@
                 <li>Address: {{ venue.address }}</li>
                 <li>Phone: {{ venue.phone }}</li>
                 <li>Service Type: {{ venue.service_type }}</li>
+            {% for menu in menus %}
+                {% if venue == menu.venue %}
+                    {{ menu.name }}
+                    <ul>
+                        <li>Edit: <a href="menu/{{ menu.id }}/">test</a></li>
+                        <li>Description: {{ menu.description }}</li></li>
+                    </ul>
+                {% endif %}
+            {% endfor %}
             </ul>
+
         {% endfor %}
+
     {% else %}
         <h4>You haven't registered any venues</h4>
     {% endif %}
