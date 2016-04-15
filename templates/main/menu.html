@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+    <h1>Drink Up!</h1>
+    <a href="/logout/">logout</a>
+    {% if items %}
+        <h4>Here are your menu items:</h4>
+            <ul>
+            {% for item in items %}
+                {% if item.menu == menu %}
+                    {{ item.name }}
+                    <ul>
+                        <li>Edit: <a href="#">test</a></li>
+                        <li>Price: ${{ item.price }}</li>
+                    </ul>
+                {% endif %}
+            {% endfor %}
+            </ul>
+
+    {% else %}
+        <h4>You haven't registered any venues</h4>
+    {% endif %}
+    <a href="#">Add an item</a>
+    <a href="{% url 'home' user.id %}">Back</a>
+{% endblock %}
