@@ -4,7 +4,7 @@ from .venue import VenueSerializer
 
 
 class MenuSerializer(serializers.ModelSerializer):
-    venue = VenueSerializer()
+    venue = VenueSerializer(read_only=True)
 
     class Meta:
         model = Menu
