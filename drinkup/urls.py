@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/$', menu, name='home'),
 
     url(r'user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/add-item$', item.add, name='item_add'),
+    url(r'user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/edit-item/(?P<item_id>\d+)$', item.edit, name='item_edit'),
 
     url(r'^admin/', admin.site.urls),
 ]
