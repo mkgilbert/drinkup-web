@@ -38,7 +38,9 @@ urlpatterns = [
 
     url(r'user/add-venue/(?P<user_id>\d+)/$', venue.add, name='venue_add'),
 
-    url(r'^user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/$', menu, name='home'),
+    url(r'^user/home/(?P<user_id>\d+)/(?P<venue_id>\d+)/add-menu/$', menu.add, name='menu_add'),
+
+    url(r'^user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/$', menu.display, name='menu'),
 
     url(r'user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/add-item$', item.add, name='item_add'),
     url(r'user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/edit-item/(?P<item_id>\d+)$', item.edit, name='item_edit'),
