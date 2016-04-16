@@ -1,29 +1,9 @@
-"""drinkup URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.9/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
-from main.views import (home,
-                        user_session,
-                        index,
-                        registration,
-                        venue,
-                        menu,
-                        item)
+from main.views import (home, user_session, index, registration, venue, menu, item,)
+
 
 urlpatterns = [
     url(r'^login/', user_session.user_login, name='user_login'),
@@ -46,4 +26,7 @@ urlpatterns = [
     url(r'user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/edit-item/(?P<item_id>\d+)$', item.edit, name='item_edit'),
 
     url(r'^admin/', admin.site.urls),
+
+    url(r'^', include('main.urls')),
+
 ]
