@@ -11,12 +11,12 @@
                     {{ item.name }}
                     <ul>
                         <li>Edit: <a href="{% url 'item_edit' user.id menu.id item.id %}">test</a></li>
-                        <li>Category: {% if item.category == 'b' %}Beer{% endif %}
-                                      {% if item.category == 'w' %}Wine{% endif %}
-                                      {% if item.category == 'm' %}Mixed Drink{% endif %}
-                                      {% if item.category == 'h' %}Hard Liquor{% endif %}
-                                      {% if item.category == 's' %}Soft Drink{% endif %}
-                                      {% if item.category == 'o' %}Other{% endif %}</li>
+                        <li>Category: {% if item.category == 'beer' %}Beer{% endif %}
+                                      {% if item.category == 'wine' %}Wine{% endif %}
+                                      {% if item.category == 'mixed' %}Mixed Drink{% endif %}
+                                      {% if item.category == 'liquor' %}Hard Liquor{% endif %}
+                                      {% if item.category == 'soft' %}Soft Drink{% endif %}
+                                      {% if item.category == 'other' %}Other{% endif %}</li>
                         <li>Price: ${{ item.price }}</li>
                     </ul>
                 {% endif %}
@@ -24,7 +24,7 @@
             </ul>
 
     {% else %}
-        <h4>You haven't registered any venues</h4>
+        <h4>This menu doesn't have any items.</h4>
     {% endif %}
     <a href="{% url 'item_add' user.id menu.id %}">Add an item</a>
     <a href="{% url 'home' user.id %}">Back</a>
