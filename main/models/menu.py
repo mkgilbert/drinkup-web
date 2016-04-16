@@ -8,12 +8,12 @@ class Menu(models.Model):
 
 class Item(models.Model):
     CATEGORIES = (
-        ('b', 'Beer'),
-        ('w', 'Wine'),
-        ('m', 'Mixed'),
-        ('h', 'Hard Liquor'),
-        ('s', 'Soft Drink'),
-        ('o', 'Other')
+        ('beer', 'Beer'),
+        ('wine', 'Wine'),
+        ('mixed', 'Mixed Drink'),
+        ('liquor', 'Hard Liquor'),
+        ('soft', 'Soft Drink'),
+        ('other', 'Other')
     )
     menu = models.ForeignKey(Menu, related_name='items')
     category = models.CharField(max_length=25, choices=CATEGORIES)
