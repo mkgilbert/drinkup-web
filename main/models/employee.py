@@ -4,7 +4,7 @@ from .venue import Venue
 
 # db model of The employee/bartender/server that will be serving drinks
 class Employee(models.Model):
-    venue = models.ForeignKey(Venue)
+    venue = models.ForeignKey(Venue, related_name='employees')
     pin_regex = RegexValidator(regex=r'^\d{4}$',
                                 message="employee pin must be 4 digits")
     # employs the above defined regex

@@ -19,8 +19,8 @@ class Order(models.Model):
     is_paid = models.BooleanField(default=False, blank=True)
     payment_type = models.CharField(max_length=3, choices=PAYMENT_TYPES, default='cs',
                                     null=True, blank=True)
-    customer = models.ForeignKey(Customer)
-    employee = models.ForeignKey(Employee, blank=True, null=True)
+    customer = models.ForeignKey(Customer, related_name='orders')
+    employee = models.ForeignKey(Employee, blank=True, null=True, related_name='orders')
     items = models.ManyToManyField(Item, through='ItemOrderLink')
 
     def get_total(self):

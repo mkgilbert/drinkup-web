@@ -9,7 +9,7 @@ class Venue(models.Model):
         ('table', 'Table-Service'),
         ('both', 'Self-Service and Table-Service')
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='venues')
     phone_regex = RegexValidator(regex=r'^\d{10}$',
                                 message="Phone number must be in the format '9285551234' and must be exactly 10 digits.")
     # employs the above defined regex

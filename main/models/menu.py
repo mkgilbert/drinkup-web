@@ -2,7 +2,7 @@ from django.db import models
 from .venue import Venue
 
 class Menu(models.Model):
-    venue = models.ForeignKey(Venue)
+    venue = models.ForeignKey(Venue, related_name='menus')
     name = models.CharField(max_length=25, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
