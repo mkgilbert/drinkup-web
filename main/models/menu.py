@@ -15,7 +15,7 @@ class Item(models.Model):
         ('s', 'Soft Drink'),
         ('o', 'Other')
     )
-    menu = models.ForeignKey(Menu)
+    menu = models.ForeignKey(Menu, related_name='items')
     category = models.CharField(max_length=25, choices=CATEGORIES)
     name = models.CharField(max_length=255)
     price = models.IntegerField()
