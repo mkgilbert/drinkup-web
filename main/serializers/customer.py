@@ -8,3 +8,6 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ('id', 'venue', 'name', 'number')
+
+    def create(self, validated_data):
+        return Customer.objects.create(**validated_data)
