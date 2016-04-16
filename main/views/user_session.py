@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import (authenticate, login, logout)
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django import forms
 
@@ -31,3 +33,18 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+def user_edit(request, user_id):
+    user = User.objects.get(pk=user_id)
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST, instance=user)
+        if form.is_valid():
+            new_item = form.save(commit=False)
+            new_item.save()
+            messages.success(request, "Account successfully updated")
+            return HttpResponseRedirect('/user/home/' + str(user.id) + '/')
+    elif request.method == 'GET':
+        form = UserCreationForm(instance=user)
+    else:
+        return HttpResponseRedirect('/user/home/' + str(user.id) + '/edit-user/')
+    return render(request, 'main/user_edit.html', {'form': form})

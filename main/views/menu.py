@@ -27,3 +27,18 @@ def add(request, user_id, venue_id):
     else:
         return HttpResponseRedirect('/user/home/' + str(venue.user.id) + '/' + str(venue.id) + '/add-menu/')
     return render(request, 'main/menu_add.html', {'form': form})
+
+def edit(request, user_id, menu_id):
+    menu = Menu.objects.get(pk=menu_id)
+    if request.method == 'POST':
+        form = AddMenuForm(request.POST, instance=menu)
+        if form.is_valid():
+            new_item = form.save(commit=False)
+            new_item.save()
+            messages.success(request, "Menu successfully updated")
+            return HttpResponseRedirect('/user/home/' + str(menu.venue.user.id) + '/')
+    elif request.method == 'GET':
+        form = AddMenuForm(instance=menu)
+    else:
+        return HttpResponseRedirect('/user/home/' + str(menu.venue.user.id) + '/menu/' + str(menu.id) + '/edit-menu/')
+    return render(request, 'main/menu_edit.html', {'form': form})
