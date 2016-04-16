@@ -31,7 +31,7 @@ def edit(request, user_id, menu_id, item_id):
             new_item = form.save(commit=False)
             new_item.menu = menu
             new_item.save()
-            messages.success(request, "Item successfully added")
+            messages.success(request, "Item successfully updated")
             return HttpResponseRedirect('/user/home/' + str(menu.venue.user.id) + '/menu/' + str(menu.id) + '/')
     elif request.method == 'GET':
         form = AddItemForm(instance=item)
