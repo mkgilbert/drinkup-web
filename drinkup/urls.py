@@ -16,13 +16,20 @@ urlpatterns = [
 
     url(r'^user/home/(?P<user_id>\d+)/$', home, name='home'),
 
+    url(r'^user/home/(?P<user_id>\d+)/edit-user/$', user_session.user_edit, name='user_edit'),
+
     url(r'user/add-venue/(?P<user_id>\d+)/$', venue.add, name='venue_add'),
 
+    url(r'user/home/(?P<user_id>\d+)/(?P<venue_id>\d+)/edit-venue/$', venue.edit, name='venue_edit'),
+
     url(r'^user/home/(?P<user_id>\d+)/(?P<venue_id>\d+)/add-menu/$', menu.add, name='menu_add'),
+
+    url(r'^user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/edit-menu/$', menu.edit, name='menu_edit'),
 
     url(r'^user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/$', menu.display, name='menu'),
 
     url(r'user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/add-item$', item.add, name='item_add'),
+
     url(r'user/home/(?P<user_id>\d+)/menu/(?P<menu_id>\d+)/edit-item/(?P<item_id>\d+)$', item.edit, name='item_edit'),
 
     url(r'^admin/', admin.site.urls),
