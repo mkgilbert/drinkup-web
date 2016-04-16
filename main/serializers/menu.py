@@ -4,11 +4,10 @@ from .venue import VenueSerializer
 
 
 class MenuSerializer(serializers.ModelSerializer):
-    venue = VenueSerializer(read_only=True)
 
     class Meta:
         model = Menu
-        fields = ('id', 'name', 'venue')
+        fields = ('id', 'name')
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -16,4 +15,4 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ('id', 'name', 'category', 'price')
+        fields = ('id', 'name', 'category', 'price', 'menu')

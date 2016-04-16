@@ -6,8 +6,15 @@ from main.models import Customer, Venue
 from main.serializers.customer import CustomerSerializer
 
 @api_view(['GET',])
-def customer_detail(request, cust_id):
-    pass
+def customer_detail(request, venue_id, cust_id):
+    try:
+        venue = Venue.objects.get(pk=venue_id)
+        customer = venue.customers.get(pk=cust_id)
+    except Customer.DoesNotExist or Venue.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = CustomerSerializer(customer)
+    return Response(serializer.data)
+
 
 @api_view(['GET', 'POST'])
 #@csrf_exempt
@@ -24,7 +31,7 @@ def customer_list(request, venue_id):
 
     if request.method == 'GET':
         # get all customers for this venue
-        customers = Customer.objects.filter(venue=venue)
+        customers = venue.customers.all()
         serializer = CustomerSerializer(customers, many=True)
         return Response(serializer.data)
 
