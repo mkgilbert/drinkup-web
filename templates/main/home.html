@@ -13,13 +13,25 @@
                 <li>Address: {{ venue.address }}</li>
                 <li>Phone: {{ venue.phone }}</li>
                 <li>Service Type: {{ venue.service_type }}</li>
+                <li>Employees:</li>
+                {% for employee in employees %}
+                    {% if venue == employee.venue %}
+                        <ul>
+                            <li>{{ employee.name }} <a href="{{ venue.id }}/employee/{{ employee.id }}/edit-employee/">Edit</a></li>
+                            <ul>
+                                <li>Pin: {{ employee.pin }}</li>
+                            </ul>
+                        </ul>
+                    {% endif %}
+                {% endfor %}
+            <a href="{% url 'employee_add' user.id venue.id %}">Add an Employee</a>
                 <li>Menus:</li>
             {% for menu in menus %}
                 {% if venue == menu.venue %}
                     <ul>
                     <li>{{ menu.name }} <a href="menu/{{ menu.id }}/edit-menu/">Edit</a></li>
                     <ul>
-                        <li>Description: {{ menu.description }}</li></li>
+                        <li>Description: {{ menu.description }}</li>
                         <li><a href="menu/{{ menu.id }}/">Edit Menu Items</a></li>
                     </ul>
                     </ul>
