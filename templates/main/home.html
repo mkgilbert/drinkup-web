@@ -3,22 +3,25 @@
 {% block body %}
     <h1>Drink Up!</h1>
     <a href="/logout/">logout</a>
-    <h3>Welcome, {{ user.username }}</h3>
+    <h3>Welcome, {{ user.username }} <a href="edit-user/">Edit</a></h3>
     {% if venues %}
         <h4>Here are your registered venues:</h4>
         {% for venue in venues %}
-            {{ venue.name }}
+            {{ venue.name }} <a href="{{ venue.id }}/edit-venue/">Edit</a>
             <ul>
                 <li>Hours: {{ venue.hours }}</li>
                 <li>Address: {{ venue.address }}</li>
                 <li>Phone: {{ venue.phone }}</li>
                 <li>Service Type: {{ venue.service_type }}</li>
+                <li>Menus:</li>
             {% for menu in menus %}
                 {% if venue == menu.venue %}
-                    {{ menu.name }}
                     <ul>
-                        <li>Edit Menu Items: <a href="menu/{{ menu.id }}/">Link</a></li>
+                    <li>{{ menu.name }} <a href="menu/{{ menu.id }}/edit-menu/">Edit</a></li>
+                    <ul>
                         <li>Description: {{ menu.description }}</li></li>
+                        <li><a href="menu/{{ menu.id }}/">Edit Menu Items</a></li>
+                    </ul>
                     </ul>
                 {% endif %}
             {% endfor %}
