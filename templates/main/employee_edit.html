@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+    <h1>Edit an Employee</h1>
+    <form action="{{ next }}" method="post">
+        <div>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save</button>
+        </div>
+    </form>
+{% endblock %}
