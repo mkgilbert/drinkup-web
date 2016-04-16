@@ -15,11 +15,10 @@ def menu_detail(request, venue_id):
     try:
         venue = Venue.objects.get(pk=venue_id)
         # TODO: allow multiple menus...also figure out which one "get" gets
-        menu = venue.menus.get(pk=1)
-        items = menu.items.all()
+        menu = venue.menus.filter().first()
     except Menu.DoesNotExist or Venue.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    serializer = ItemSerializer(items, many=True)
+    serializer = MenuSerializer(menu)
     return Response(serializer.data)
 
 @api_view(['GET'])
