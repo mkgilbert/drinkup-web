@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from main.views.api import (customer, venue, menu)
+from main.views.api import (customer, venue, menu, order)
 
 urlpatterns = [
     url(r'^api/(?P<venue_id>\d+)/customer_list/$', customer.customer_list,
@@ -12,6 +12,6 @@ urlpatterns = [
         name='api_menu_list'),
     url(r'^api/(?P<venue_id>\d+)/menu_detail/$', menu.menu_detail,
         name='api_menu_detail'),
-
-
+    url(r'^api/(?P<venue_id>\d+)/order/(?P<cust_id>\d+)/$', order.order,
+        name='api_order'),
 ]
