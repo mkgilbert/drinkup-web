@@ -1,47 +1,178 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
+{% block style %}
+col-sm-4{
+
+	}
+	.col-sm-8{
+	}
+	h1{
+		text-align:center;
+	}
+	h2{
+		text-align:center;
+	}
+
+	/* colors */
+	#header,
+	#footer {
+		background-color: #f1f1f1;
+	}
+
+	#main-wrap {
+		background-color: #D9D9D9;
+	}
+
+	#sidebar {
+		background-color: #d2d2d2;
+	}
+
+	#content-wrap {
+		background-color: #c5c5c5;
+	}
+
+	/* sizes */
+	#main-wrap > div {
+
+	}
+
+
+	#header,
+	#footer {
+		top:0;
+		right:0;
+		position:absolute;
+		height:15%;
+		padding-top:5px;
+		padding-right:5px;
+	}
+
+	#main-wrap{
+
+		height:90%;
+	}
+
+	/* layout */
+	#main-wrap {
+	    /* overflow to handle inner floating block */
+	    overflow: hidden;
+		height:100%;
+	}
+
+	#sidebar {
+	    float: left;
+	    width: 30%;
+		text-align:center;
+		left:0;
+		position:absolute;
+	}
+
+	#content-wrap {
+	    float: right;
+	    width: 70%;
+		text-align:center;
+		height:100%;
+		right:0;
+		position:absolute;
+	}
+	#lst{
+		overflow-y:scroll;
+	}
+	#slideInfo{
+		background-color:black;
+		color:white;
+
+	}
+	#orerlist{
+		text-align:center-left;
+		color:red;
+		font-weight:bold;
+	}
+{% endblock %}
 {% block body %}
-    <h1>Drink Up!</h1>
-    <a href="/logout/">logout</a>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script type="text/javascript">
+
+var activeslide = -1;
+
+function setActiveSlide(slideno){
+    document.getElementsByName("slide"+slideno).className = "item active"; 
+    activeslide = slideno;
+}
 
 setInterval(function() {
     /* AJAX call here. */
 $.ajax({
-    url : '/api/' + {{venue.id}} + '/menu_detail/?format=json',
+    url : '/api/' + {{venue.id}} + '/order/0/?format=json',
     dataType : 'json',
     type : 'GET',
     success: function(data)
     {
-        var text = ""; 
+        var orders = ""; 
+        var orderdetails = "";
         var i;
-        /*var id = data.id; 
-        var name = data.name;*/
-        var items = data.items;
+        var j;
         
-        for (i = 0; i < items.length; i++) {
-            text += "Name: " + items[i].name + "<br>Category: " + items[i].category + "<br> Price: " + items[i].price + "<br><br>";
+        if(activeslide == -1){
+            orderdetails += "\n\t<div class=\"item active\" id=\"slideInfo\"><center><h2>Select an order to begin.</h2></center></div>";
+        }
+        for (i = 0; i < data.length; i++) {
+            orders += "<h4><a onclick=\"setActiveSlide(" + data[i].id + ")\" href=\"#\">Order" + data[i].id + "</a></h4>\n";
+            orderdetails += "\n\t\t<div class=\"item";
+            if(data[i].id == activeslide){
+                orderdetails += "active";
+            }
+            orderdetails += "\" id=\"slideInfo\" name=\"slide" + data[i].id + "\">\n<h2>Order: " + data[i].id + "</h2>";
+
+
+            orderdetails += "Server: " + data[i].employee.name + "<br>";
+
+            if(data[i].items.length != 0){
+                orderdetails += "<ol id=\"orderlist\">";
+                for (j = 0; j < data[i].items.length; j++) {
+                    orderdetails += "<li>Item " + (j+1) + ": " + data[i].items[j].name + " Status: " + data[i].items[j].status +  "</li>";
+                }
+                orderdetails += "</ol>";
+                orderdetails += "<button type=\"button\" class=\"btn btn-success btn-lg\">Complete All</button>";
+            }
+            else{
+                orderdetails += "There are no items in this order.";
+            }
+
+          orderdetails += "</div>";
+	  
         }
         
-        document.getElementById("demo").innerHTML = text;
+        document.getElementById("demo").innerHTML = orders;
+        document.getElementById("carouselitem").innerHTML = orderdetails;
 
-        console.log(items);
+        console.log(data);
     }
 });
 
 }, 5000);
 </script>
 
+<div id="main-wrap"> <!-- main wrapper -->
 
-    {% if items %}
-        <h4>Here are your menu items:</h4>
-            <ul>
-<p id="demo">Loading contents...</p>
-            </ul>
 
-    {% else %}
-        <h4>This menu doesn't have any items.</h4>
-    {% endif %}
-    <a href="{% url 'home' user.id %}">Back</a>
+<div id="sidebar">
+  <h3>Current Orders</h3>
+  <p id="demo">Loading contents...</p>
+</div>
+
+		<div id="content-wrap">
+		<h3>Details</h3>
+  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
+  <!-- Indicators -->
+  <ol class="carousel-indicators"></ol>
+
+  <!-- Wrapper for slides -->
+<div class="carousel-inner" role="listbox" id="carouselitem">
+    <div class="item active" id="slideInfo">
+      <h2>Loading...</h2>
+    </div>
+</div>
+</div>
+</div> <!-- main wrapper -->
 {% endblock %}
