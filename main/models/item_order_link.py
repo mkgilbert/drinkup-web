@@ -7,7 +7,7 @@ Acts as intermediary table between items and orders due to the many-to-many rela
 class ItemOrderLink(models.Model):
     item = models.ForeignKey(Item, null=True)
     order = models.ForeignKey('Order')
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(default=1)
     item_order_price = models.IntegerField()
 
     @property

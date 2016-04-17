@@ -1,4 +1,5 @@
 from django.db import models
+from .venue import Venue
 from .menu import Item
 from .customer import Customer
 from .employee import Employee
@@ -19,9 +20,10 @@ class Order(models.Model):
     is_paid = models.BooleanField(default=False, blank=True)
     payment_type = models.CharField(max_length=3, choices=PAYMENT_TYPES, default='cs',
                                     null=True, blank=True)
-    customer = models.ForeignKey(Customer, related_name='orders')
+    customer = models.ForeignKey(Customer, blank=True, null=True, related_name='orders')
     employee = models.ForeignKey(Employee, blank=True, null=True, related_name='orders')
     items = models.ManyToManyField(Item, through='ItemOrderLink')
+    venue = models.ForeignKey(Venue, related_name='orders')
 
     def get_total(self):
         """
@@ -38,7 +40,7 @@ class Order(models.Model):
     def get_total_formatted(self):
         return "$" + "{:,.2f}".format(self.get_total() / 100.0)
 
-    def add_item(self, item, qty):
+    def add_item(self, item_id, qty):
         """
         Must be used because we're using a "through" intermediary table (ItemOrderLink) instead of letting
         Django take care of that for us. We can't use the .add() method like usual, so we can do this instead
@@ -47,6 +49,7 @@ class Order(models.Model):
         :param qty: Integer quantity of the Item object you want to add
         :return: Returns ItemOrderLink object
         """
+        item = Item.objects.get(pk=item_id)
         return ItemOrderLink.objects.create(order=self, item=item, quantity=qty,
                                         item_order_price=item.price)
 
