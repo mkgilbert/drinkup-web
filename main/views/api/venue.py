@@ -18,13 +18,7 @@ def venue_detail(request, venue_id):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def venue_list(request, user_id):
-    try:
-        user= User.objects.get(pk=user_id)
-        venues = Venue.objects.filter(user=user)
-    except Venue.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        serializer = VenueSerializer(venues, many=True)
-        return Response(serializer.data, status=200)
+def venue_list(request):
+    venues = Venue.objects.all()
+    serializer = VenueSerializer(venues, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
