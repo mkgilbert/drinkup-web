@@ -23,13 +23,17 @@ def order(request, venue_id, cust_id):
     Get or create a new order
     """
     if request.method == 'GET':
-        try:
-            customer = Customer.objects.get(pk=cust_id)
-        except Customer.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
-        orders = customer.orders.all()
+        if cust_id == "0":
+            venue = Venue.objects.get(pk=venue_id)
+            orders = venue.orders.all()
+        else:
+            try:
+                customer = Customer.objects.get(pk=cust_id)
+            except Customer.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            orders = customer.orders.all()
         serializer = OrderSerializer(orders, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     if request.method == 'POST':
         try:
