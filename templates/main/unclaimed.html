@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+{% block body %}
+     <h1>Unclaimed Orders:</h1>
+{% if unclaimed %}
+    <ul>
+    {% for order in unclaimed %}
+        {% if not order.employee_id %}
+            <div>
+            <h3> Order Number: {{ order.id }}</h3>
+            <h3>{{ order.customer }}</h3>
+            <button>Done</button>
+            </div>
+        {% endif %}
+    {% endfor %}
+</ul>
+    {% endif %}
+{% endblock %}

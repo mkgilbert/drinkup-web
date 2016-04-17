@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
-from main.views import (home, user_session, index, registration, venue, menu, item, employee, order, test)
+from main.views import (home, user_session, index, registration, venue, menu, item, employee, order, test, unclaimed)
 
 
 urlpatterns = [
@@ -45,5 +45,7 @@ urlpatterns = [
     url(r'^', include('main.urls')),
 
     url(r'user/home/order', order, name ='order'),
+
+    url(r'user/home/unclaimed', unclaimed, name ='unclaimed'),
 
 ]
