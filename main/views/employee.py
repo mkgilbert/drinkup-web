@@ -6,7 +6,8 @@ from main.models import Venue, Employee
 from django.contrib.auth.models import User
 from main.forms import AddEmployeeForm
 
-def add(request, user_id, venue_id):
+@login_required()
+def add(request, venue_id):
     venue = Venue.objects.get(pk=venue_id)
     if request.method == 'POST':
         form = AddEmployeeForm(request.POST)
@@ -15,14 +16,15 @@ def add(request, user_id, venue_id):
             new_item.venue = venue
             new_item.save()
             messages.success(request, "Employee successfully added")
-            return HttpResponseRedirect('/user/home/' + str(venue.user.id) + '/')
+            return HttpResponseRedirect('/user/home/')
     elif request.method == 'GET':
         form = AddEmployeeForm()
     else:
-        return HttpResponseRedirect('/user/home/' + str(venue.user.id) + '/' + str(venue.id) + '/add-employee/')
+        return HttpResponseRedirect('/user/home/' + str(venue.id) + '/add-employee/')
     return render(request, 'main/employee_add.html', {'form': form})
 
-def edit(request, user_id, venue_id, employee_id):
+@login_required()
+def edit(request, venue_id, employee_id):
     employee = Employee.objects.get(pk=employee_id)
     if request.method == 'POST':
         form = AddEmployeeForm(request.POST, instance=employee)
@@ -34,5 +36,5 @@ def edit(request, user_id, venue_id, employee_id):
     elif request.method == 'GET':
         form = AddEmployeeForm(instance=employee)
     else:
-        return HttpResponseRedirect('/user/home/' + str(employee.venue.user.id) + str(employee.venue.id) + '/employee/' + str(employee.id) + '/edit-employee/')
+        return HttpResponseRedirect('/user/home/' + str(employee.venue.id) + '/employee/' + str(employee.id) + '/edit-employee/')
     return render(request, 'main/employee_edit.html', {'form': form})

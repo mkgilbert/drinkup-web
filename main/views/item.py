@@ -15,12 +15,13 @@ def add(request, user_id, menu_id):
             new_item.menu = menu
             new_item.save()
             messages.success(request, "Item successfully added")
-            return HttpResponseRedirect('/user/home/' + str(menu.venue.user.id) + '/menu/' + str(menu.id) + '/')
+            return HttpResponseRedirect('/user/home/menu/' + str(menu.id))
     elif request.method == 'GET':
         form = AddItemForm()
     else:
-        return HttpResponseRedirect('/user/home/' + str(menu.venue.user.id) + '/menu/' + str(menu.id) + '/add-item')
+        return HttpResponseRedirect('/user/home/menu/' + str(menu.id) + '/add-item')
     return render(request, 'main/item_add.html', {'form': form})
+
 
 @login_required()
 def edit(request, user_id, menu_id, item_id):
@@ -34,9 +35,9 @@ def edit(request, user_id, menu_id, item_id):
             new_item.menu = menu
             new_item.save()
             messages.success(request, "Item successfully updated")
-            return HttpResponseRedirect('/user/home/' + str(menu.venue.user.id) + '/menu/' + str(menu.id) + '/')
+            return HttpResponseRedirect('/user/home/menu/' + str(menu.id))
     elif request.method == 'GET':
         form = AddItemForm(instance=item)
     else:
-        return HttpResponseRedirect('/user/home/' + str(menu.venue.user.id) + '/menu/' + str(menu.id) + '/edit-item')
+        return HttpResponseRedirect('/user/home/menu/' + str(menu.id) + '/edit-item')
     return render(request, 'main/item_edit.html', {'form': form})

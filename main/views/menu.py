@@ -7,14 +7,13 @@ from django.contrib.auth.models import User
 from main.forms import AddMenuForm
 
 @login_required()
-def display(request, user_id, menu_id):
-    user = User.objects.get(pk=user_id)
+def display(request, menu_id):
     menu = Menu.objects.get(id=menu_id)
     items = Item.objects.all()
-    return render(request, "main/menu.html", {'user': user, 'menu': menu, 'items': items})
+    return render(request, "main/menu.html", {'user': request.user, 'menu': menu, 'items': items})
 
 @login_required()
-def add(request, user_id, venue_id):
+def add(request, venue_id):
     venue = Venue.objects.get(pk=venue_id)
     if request.method == 'POST':
         form = AddMenuForm(request.POST)
@@ -31,7 +30,7 @@ def add(request, user_id, venue_id):
     return render(request, 'main/menu_add.html', {'form': form})
 
 @login_required()
-def edit(request, user_id, menu_id):
+def edit(request, menu_id):
     menu = Menu.objects.get(pk=menu_id)
     if request.method == 'POST':
         form = AddMenuForm(request.POST, instance=menu)

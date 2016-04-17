@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import (authenticate, login, logout)
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django import forms
@@ -43,7 +42,6 @@ def user_edit(request):
         if form.is_valid():
             new_item = form.save(commit=False)
             new_item.save()
-
             messages.success(request, "Account successfully updated")
             return HttpResponseRedirect('/user/home/')
     elif request.method == 'GET':

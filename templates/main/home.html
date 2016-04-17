@@ -24,7 +24,7 @@
                         </ul>
                     {% endif %}
                 {% endfor %}
-            <a href="{% url 'employee_add' user.id venue.id %}">Add an Employee</a>
+            <a href="{% url 'employee_add' venue.id %}">Add an Employee</a>
                 <li>Menus:</li>
             {% for menu in menus %}
                 {% if venue == menu.venue %}
@@ -38,7 +38,7 @@
                 {% endif %}
             {% endfor %}
 
-            <a href="{% url 'menu_add' user.id venue.id %}">Add a Menu</a>
+            <a href="{% url 'menu_add' venue.id %}">Add a Menu</a>
             </ul>
 
         {% endfor %}
@@ -46,5 +46,5 @@
     {% else %}
         <h4>You haven't registered any venues</h4>
     {% endif %}
-    <a href="{% url 'venue_add' user.id %}">Add a Venue</a>
+    <a href="{% url 'venue_add' %}">Add a Venue</a>
 {% endblock %}
