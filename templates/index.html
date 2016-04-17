@@ -3,6 +3,7 @@
     <h1>Drink Up!</h1>
     <h2>index page...</h2>
     {% if user_is_logged_in %}
+        <a href="/user/home/{{ user.id }}">home</a>
         <a href="/logout/">logout</a>
     {% else %}
         <a href="/login/">sign in</a>
