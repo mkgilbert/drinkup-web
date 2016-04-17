@@ -22,11 +22,11 @@ def add(request, venue_id):
             new_item.venue = venue
             new_item.save()
             messages.success(request, "Menu successfully added")
-            return HttpResponseRedirect('/user/home/' + str(venue.user.id) + '/')
+            return HttpResponseRedirect('/user/home/')
     elif request.method == 'GET':
         form = AddMenuForm()
     else:
-        return HttpResponseRedirect('/user/home/' + str(venue.user.id) + '/' + str(venue.id) + '/add-menu/')
+        return HttpResponseRedirect('/user/home/' + str(venue.id) + '/add-menu/')
     return render(request, 'main/menu_add.html', {'form': form})
 
 @login_required()
@@ -38,9 +38,9 @@ def edit(request, menu_id):
             new_item = form.save(commit=False)
             new_item.save()
             messages.success(request, "Menu successfully updated")
-            return HttpResponseRedirect('/user/home/' + str(menu.venue.user.id) + '/')
+            return HttpResponseRedirect('/user/home/')
     elif request.method == 'GET':
         form = AddMenuForm(instance=menu)
     else:
-        return HttpResponseRedirect('/user/home/' + str(menu.venue.user.id) + '/menu/' + str(menu.id) + '/edit-menu/')
+        return HttpResponseRedirect('/user/home/menu/' + str(menu.id) + '/edit-menu/')
     return render(request, 'main/menu_edit.html', {'form': form})

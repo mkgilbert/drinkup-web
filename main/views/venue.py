@@ -31,7 +31,7 @@ def edit(request, venue_id):
             new_venue = form.save(commit=False)
             new_venue.save()
             messages.success(request, "Venue successfully updated")
-            return HttpResponseRedirect('/user/home/')
+            return HttpResponseRedirect('/user/home')
     elif request.method == 'GET':
         form = AddVenueForm(instance=venue)
     else:

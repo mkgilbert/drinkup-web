@@ -32,7 +32,7 @@ def edit(request, venue_id, employee_id):
             new_item = form.save(commit=False)
             new_item.save()
             messages.success(request, "Employee successfully updated")
-            return HttpResponseRedirect('/user/home/' + str(employee.venue.user.id) + '/')
+            return HttpResponseRedirect('/user/home/')
     elif request.method == 'GET':
         form = AddEmployeeForm(instance=employee)
     else:

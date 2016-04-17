@@ -6,7 +6,7 @@ from main.models import Item, Menu
 from main.forms import AddItemForm
 
 @login_required()
-def add(request, user_id, menu_id):
+def add(request, menu_id):
     menu = Menu.objects.get(pk=menu_id)
     if request.method == 'POST':
         form = AddItemForm(request.POST)
@@ -24,7 +24,7 @@ def add(request, user_id, menu_id):
 
 
 @login_required()
-def edit(request, user_id, menu_id, item_id):
+def edit(request, menu_id, item_id):
     menu = Menu.objects.get(pk=menu_id)
     item = Item.objects.get(pk=item_id)
     form = AddItemForm(instance=item)

@@ -10,7 +10,7 @@
                 {% if item.menu == menu %}
                     {{ item.name }}
                     <ul>
-                        <li>Edit: <a href="{% url 'item_edit' user.id menu.id item.id %}">test</a></li>
+                        <li>Edit: <a href="{% url 'item_edit' menu.id item.id %}">test</a></li>
                         <li>Category: {% if item.category == 'beer' %}Beer{% endif %}
                                       {% if item.category == 'wine' %}Wine{% endif %}
                                       {% if item.category == 'mixed' %}Mixed Drink{% endif %}
@@ -26,6 +26,6 @@
     {% else %}
         <h4>This menu doesn't have any items.</h4>
     {% endif %}
-    <a href="{% url 'item_add' user.id menu.id %}">Add an item</a>
-    <a href="{% url 'home' user.id %}">Back</a>
+    <a href="{% url 'item_add' menu.id %}">Add an item</a>
+    <a href="{% url 'home' %}">Back</a>
 {% endblock %}
