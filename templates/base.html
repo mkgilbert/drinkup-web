@@ -30,6 +30,70 @@
 </head>
 
 <body>
+<!-- Fixed navbar -->
+<nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'index' %}">DrinkUP!</a>
+        </div>
+        {% if user.is_authenticated %}
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li id="index"><a href="{% url 'home' user.id %}">Home</a></li>
+                    <li id="customers"><a href="#">Customers</a></li>
+                    <li id="admin" class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            My Business<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li id="admin_home"><a href="#">Home</a></li>
+                            <li id="admin_employees"><a href="#">Employees</a></li>
+                            <li id="admin_reports"><a href="#">Reports</a></li>
+							<li id="admin_products"><a href="#">Menus</a></li>
+                        </ul>
+                    </li>
+                </ul>
+        {% endif %}
+        <!-- User logout button -->
+        {% if user.is_authenticated %}
+            <div class="navbar-right">
+                <p class="navbar-text">Signed in as {{ user.username }}</p>
+                <a href="{% url 'user_logout' %}">
+                    <button class="btn btn-default navbar-btn">Logout</button>
+                </a>
+            </div>
+        {% else %}
+            <div class="navbar-right">
+                <a href="{% url 'user_login' %}">
+                    <button class="btn btn-default navbar-btn">sign in</button>
+                </a>
+                <a href="/register/">
+                    <button class="btn btn-default navbar-btn">register</button>
+                </a>
+            </div>
+        {% endif %}
+        <!-- End user logout button -->
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+    {% if messages %}
+      <div class="alert alert-success" role="alert">
+          <ul>
+          {% for message in messages %}
+              <li>{{ message }}</li>
+          {% endfor %}
+          </ul>
+      </div>
+    {% endif %}
 
     {% block body %}{% endblock %}
 
