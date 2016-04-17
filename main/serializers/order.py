@@ -6,28 +6,30 @@ from .venue import VenueSerializer
 from .employee import EmployeeSerializer
 
 
+class ItemOrderLinkSerializer(serializers.HyperlinkedModelSerializer):
+    id = serializers.ReadOnlyField(source='item.id')
+    name = serializers.ReadOnlyField(source='item.name')
+
+    class Meta:
+        model = ItemOrderLink
+        fields = ('id', 'name', 'status', 'quantity', 'item_order_price')
+
+
 class OrderSerializer(serializers.ModelSerializer):
     time_created = serializers.DateTimeField()
     time_completed = serializers.DateTimeField()
     customer = CustomerSerializer()
     venue = VenueSerializer()
     employee = EmployeeSerializer()
-    items = ItemSerializer(many=True)
+    items = ItemOrderLinkSerializer(source='itemorderlink_set', many=True)
 
     class Meta:
         model = Order
-        fields = ('id', 'venue', 'customer', 'employee', 'time_created', 'time_completed', 'is_paid', 'items')
+        fields = ('id', 'venue', 'customer', 'employee', 'time_created',
+                  'time_completed', 'is_delivered', 'is_paid', 'items')
 
     def create(self, validated_data):
         return Order.objects.create(**validated_data)
-
-class ItemOrderLinkSerializer(serializers.ModelSerializer):
-    item = ItemSerializer(read_only=True)
-    order = OrderSerializer()
-
-    class Meta:
-        model = ItemOrderLink
-        fields = ('id', 'item', 'order', 'item_order_price')
 
 
 class CreateOrderElement(serializers.Serializer):
