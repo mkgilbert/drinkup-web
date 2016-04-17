@@ -7,6 +7,8 @@ from main.views import (home, user_session, index, registration, venue, menu, it
 
 urlpatterns = [
     url(r'^login/', user_session.user_login, name='user_login'),
+    # this takes care of the built-in updating of an account that wants to go to this url
+    url(r'^accounts/login/', user_session.user_login, name='user_login'),
     url(r'^logout/', user_session.user_logout, name='user_logout'),
     url(r'^register/', CreateView.as_view(template_name='register.html',
                                           form_class=UserCreationForm,
@@ -14,11 +16,11 @@ urlpatterns = [
     url(r'^success/', registration.success, name="success"),
     url(r'^$', index, name='index'),
 
-    url(r'^user/home/(?P<user_id>\d+)/$', home, name='home'),
+    url(r'^user/home/$', home, name='home'),
 
     url(r'^user/home/(?P<user_id>\d+)/test/(?P<venue_id>\d+)/$', test.display, name='test'),
 
-    url(r'^user/home/(?P<user_id>\d+)/edit-user/$', user_session.user_edit, name='user_edit'),
+    url(r'^user/home/edit-user/$', user_session.user_edit, name='user_edit'),
 
     url(r'user/add-venue/(?P<user_id>\d+)/$', venue.add, name='venue_add'),
 

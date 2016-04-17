@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from main.models import Item, Menu
 from main.forms import AddItemForm
 
+@login_required()
 def add(request, user_id, menu_id):
     menu = Menu.objects.get(pk=menu_id)
     if request.method == 'POST':
@@ -21,6 +22,7 @@ def add(request, user_id, menu_id):
         return HttpResponseRedirect('/user/home/' + str(menu.venue.user.id) + '/menu/' + str(menu.id) + '/add-item')
     return render(request, 'main/item_add.html', {'form': form})
 
+@login_required()
 def edit(request, user_id, menu_id, item_id):
     menu = Menu.objects.get(pk=menu_id)
     item = Item.objects.get(pk=item_id)

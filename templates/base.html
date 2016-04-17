@@ -46,7 +46,7 @@
         {% if user.is_authenticated %}
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li id="index"><a href="{% url 'home' user.id %}">Home</a></li>
+                    <li id="index"><a href="{% url 'home' %}">Home</a></li>
                     <li id="customers"><a href="#">Customers</a></li>
                     <li id="admin" class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

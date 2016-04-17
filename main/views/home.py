@@ -1,9 +1,10 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from main.models import Venue, Menu, Employee
-from django.contrib.auth.models import User
 
-def home(request, user_id):
-    user = User.objects.get(pk=user_id)
+@login_required()
+def home(request):
+    user = request.user
     venues = user.venues.all()
     menus = Menu.objects.all()
     employees = Employee.objects.all()

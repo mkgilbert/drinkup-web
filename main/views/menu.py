@@ -6,12 +6,14 @@ from main.models import Venue, Menu, Item
 from django.contrib.auth.models import User
 from main.forms import AddMenuForm
 
+@login_required()
 def display(request, user_id, menu_id):
     user = User.objects.get(pk=user_id)
     menu = Menu.objects.get(id=menu_id)
     items = Item.objects.all()
     return render(request, "main/menu.html", {'user': user, 'menu': menu, 'items': items})
 
+@login_required()
 def add(request, user_id, venue_id):
     venue = Venue.objects.get(pk=venue_id)
     if request.method == 'POST':
@@ -28,6 +30,7 @@ def add(request, user_id, venue_id):
         return HttpResponseRedirect('/user/home/' + str(venue.user.id) + '/' + str(venue.id) + '/add-menu/')
     return render(request, 'main/menu_add.html', {'form': form})
 
+@login_required()
 def edit(request, user_id, menu_id):
     menu = Menu.objects.get(pk=menu_id)
     if request.method == 'POST':

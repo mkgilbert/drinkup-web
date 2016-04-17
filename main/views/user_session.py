@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import (authenticate, login, logout)
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -20,7 +21,7 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return HttpResponseRedirect('/user/home/' + str(user.pk))
+                return HttpResponseRedirect('/user/home/')
             else:
                 messages.error(request, 'Incorrect username or password')
                 return HttpResponseRedirect('/login/')
@@ -34,17 +35,19 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
 
-def user_edit(request, user_id):
-    user = User.objects.get(pk=user_id)
+@login_required()
+def user_edit(request):
+    user = request.user
     if request.method == 'POST':
         form = UserCreationForm(request.POST, instance=user)
         if form.is_valid():
             new_item = form.save(commit=False)
             new_item.save()
+
             messages.success(request, "Account successfully updated")
-            return HttpResponseRedirect('/user/home/' + str(user.id) + '/')
+            return HttpResponseRedirect('/user/home/')
     elif request.method == 'GET':
         form = UserCreationForm(instance=user)
     else:
-        return HttpResponseRedirect('/user/home/' + str(user.id) + '/edit-user/')
+        return HttpResponseRedirect('/user/home/edit-user/')
     return render(request, 'main/user_edit.html', {'form': form})
