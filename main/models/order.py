@@ -18,6 +18,7 @@ class Order(models.Model):
     time_created = models.DateTimeField(auto_now_add=True)
     time_completed = models.DateTimeField(null=True, blank=True)
     is_paid = models.BooleanField(default=False, blank=True)
+    is_delivered = models.BooleanField(default=False, blank=True)
     payment_type = models.CharField(max_length=3, choices=PAYMENT_TYPES, default='cs',
                                     null=True, blank=True)
     customer = models.ForeignKey(Customer, blank=True, null=True, related_name='orders')
