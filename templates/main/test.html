@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+    <h1>Drink Up!</h1>
+    <a href="/logout/">logout</a>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+setInterval(function() {
+    /* AJAX call here. */
+$.ajax({
+    url : '/api/' + {{venue.id}} + '/menu_detail/?format=json',
+    dataType : 'json',
+    type : 'GET',
+    success: function(data)
+    {
+        var text = ""; 
+        var i;
+        /*var id = data.id; 
+        var name = data.name;*/
+        var items = data.items;
+        
+        for (i = 0; i < items.length; i++) {
+            text += "Name: " + items[i].name + "<br>Category: " + items[i].category + "<br> Price: " + items[i].price + "<br><br>";
+        }
+        
+        document.getElementById("demo").innerHTML = text;
+
+        console.log(items);
+    }
+});
+
+}, 5000);
+</script>
+
+
+    {% if items %}
+        <h4>Here are your menu items:</h4>
+            <ul>
+<p id="demo">Loading contents...</p>
+            </ul>
+
+    {% else %}
+        <h4>This menu doesn't have any items.</h4>
+    {% endif %}
+    <a href="{% url 'home' user.id %}">Back</a>
+{% endblock %}
