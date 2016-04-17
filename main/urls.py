@@ -8,6 +8,8 @@ urlpatterns = [
         name='api_customer_detail'),
     url(r'^api/user/(?P<user_id>\d+)/venue_list/$', venue.venue_list,
         name='api_venue_list'),
+    url(r'^api/venue_detail/(?P<venue_id>\d+)/$', venue.venue_detail,
+        name='api_venue_detail'),
     url(r'^api/(?P<venue_id>\d+)/menu_list/$', menu.menu_list,
         name='api_menu_list'),
     url(r'^api/(?P<venue_id>\d+)/menu_detail/$', menu.menu_detail,

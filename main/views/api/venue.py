@@ -9,9 +9,13 @@ from main.serializers.venue import VenueSerializer
 from django.contrib.auth.models import User
 
 @api_view(['GET',])
-def venue_detail(request):
-    serializer = VenueSerializer(data=request.data)
-    return Response(serializer.data)
+def venue_detail(request, venue_id):
+    try:
+        venue = Venue.objects.get(pk=venue_id)
+    except Venue.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = VenueSerializer(venue)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def venue_list(request, user_id):

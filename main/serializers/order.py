@@ -3,12 +3,15 @@ from main.models import (Order, Item, ItemOrderLink, Customer)
 from .menu import ItemSerializer
 from .customer import CustomerSerializer
 from .venue import VenueSerializer
+from .employee import EmployeeSerializer
+
 
 class OrderSerializer(serializers.ModelSerializer):
     time_created = serializers.DateTimeField()
     time_completed = serializers.DateTimeField()
     customer = CustomerSerializer()
     venue = VenueSerializer()
+    employee = EmployeeSerializer()
     items = ItemSerializer(many=True)
 
     class Meta:
