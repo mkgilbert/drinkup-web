@@ -18,7 +18,7 @@ urlpatterns = [
 
     url(r'^user/home/$', home, name='home'),
 
-    url(r'^user/home/test/(?P<venue_id>\d+)/$', test.display, name='test'),
+    url(r'^user/home/(?P<user_id>\d+)/test/(?P<venue_id>\d+)/$', test.display, name='test'),
 
     url(r'^user/home/edit-user/$', user_session.user_edit, name='user_edit'),
 
