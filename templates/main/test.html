@@ -1,93 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block style %}
-col-sm-4{
-
-	}
-	.col-sm-8{
-	}
-	h1{
-		text-align:center;
-	}
-	h2{
-		text-align:center;
-	}
-
-	/* colors */
-	#header,
-	#footer {
-		background-color: #f1f1f1;
-	}
-
-	#main-wrap {
-		background-color: #D9D9D9;
-	}
-
-	#sidebar {
-		background-color: #d2d2d2;
-	}
-
-	#content-wrap {
-		background-color: #c5c5c5;
-	}
-
-	/* sizes */
-	#main-wrap > div {
-
-	}
-
-
-	#header,
-	#footer {
-		top:0;
-		right:0;
-		position:absolute;
-		height:15%;
-		padding-top:5px;
-		padding-right:5px;
-	}
-
-	#main-wrap{
-
-		height:90%;
-	}
-
-	/* layout */
-	#main-wrap {
-	    /* overflow to handle inner floating block */
-	    overflow: hidden;
-		height:100%;
-	}
-
-	#sidebar {
-	    float: left;
-	    width: 30%;
-		text-align:center;
-		left:0;
-		position:absolute;
-	}
-
-	#content-wrap {
-	    float: right;
-	    width: 70%;
-		text-align:center;
-		height:100%;
-		right:0;
-		position:absolute;
-	}
-	#lst{
-		overflow-y:scroll;
-	}
-	#slideInfo{
-		background-color:black;
-		color:white;
-
-	}
-	#orerlist{
-		text-align:center-left;
-		color:red;
-		font-weight:bold;
-	}
 {% endblock %}
 {% block body %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -96,12 +9,12 @@ col-sm-4{
 var activeslide = -1;
 
 function setActiveSlide(slideno){
-    document.getElementsByName("slide"+slideno).className = "item active"; 
+    document.getElementsByName("slide"+slideno).className = "item active";
     activeslide = slideno;
+    doOnce();
 }
 
-setInterval(function() {
-    /* AJAX call here. */
+function doOnce(){
 $.ajax({
     url : '/api/' + {{venue.id}} + '/order/0/?format=json',
     dataType : 'json',
@@ -117,15 +30,24 @@ $.ajax({
             orderdetails += "\n\t<div class=\"item active\" id=\"slideInfo\"><center><h2>Select an order to begin.</h2></center></div>";
         }
         for (i = 0; i < data.length; i++) {
-            orders += "<h4><a onclick=\"setActiveSlide(" + data[i].id + ")\" href=\"#\">Order" + data[i].id + "</a></h4>\n";
+            orders += "<li";
             orderdetails += "\n\t\t<div class=\"item";
             if(data[i].id == activeslide){
                 orderdetails += "active";
+                orders+= " class=\"active\"><a onclick=\"\" href=\"#\">Order " + data[i].id + "</a></li>\n";
+            }
+            else{
+                orders+= "><a onclick=\"setActiveSlide(" + data[i].id + ")\" href=\"#\">Order " + data[i].id + "</a></li>\n";
             }
             orderdetails += "\" id=\"slideInfo\" name=\"slide" + data[i].id + "\">\n<h2>Order: " + data[i].id + "</h2>";
 
+            if(data[i].employee != null){
+                orderdetails += "Server: " + data[i].employee.name + "<br>";
+            }
 
-            orderdetails += "Server: " + data[i].employee.name + "<br>";
+            if(data[i].customer != null){
+                orderdetails += "Customer: " + data[i].customer.name + "<br>";
+            }
 
             if(data[i].items.length != 0){
                 orderdetails += "<ol id=\"orderlist\">";
@@ -136,43 +58,48 @@ $.ajax({
                 orderdetails += "<button type=\"button\" class=\"btn btn-success btn-lg\">Complete All</button>";
             }
             else{
-                orderdetails += "There are no items in this order.";
+                orderdetails += "<p>There are no items in this order.</p>";
+                orderdetails += "<button type=\"button\" class=\"btn btn-success btn-lg disabled\">Complete All</button>";
             }
 
-          orderdetails += "</div>";
-	  
+            orderdetails += "</div>";
         }
-        
         document.getElementById("demo").innerHTML = orders;
         document.getElementById("carouselitem").innerHTML = orderdetails;
 
         console.log(data);
     }
 });
+}
 
-}, 5000);
+setInterval(function() {
+    doOnce();
+}, 15000);
 </script>
+{% block navtype %}fixed{% endblock %}
+    <div class="container-fluid" onload="doOnce()">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <p><button type="button" class="btn btn-primary" onclick="doOnce()">Load Now</button></p>
+          <ul class="nav nav-sidebar" id="demo">
+            <li>Loading...</li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Order Details</h1>
 
-<div id="main-wrap"> <!-- main wrapper -->
-
-
-<div id="sidebar">
-  <h3>Current Orders</h3>
-  <p id="demo">Loading contents...</p>
-</div>
-
-		<div id="content-wrap">
-		<h3>Details</h3>
-  <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
-  <!-- Indicators -->
-  <ol class="carousel-indicators"></ol>
-
-  <!-- Wrapper for slides -->
-<div class="carousel-inner" role="listbox" id="carouselitem">
-    <div class="item active" id="slideInfo">
-      <h2>Loading...</h2>
+          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
+            <!-- Indicators -->
+            <ol class="carousel-indicators"></ol>
+  
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox" id="carouselitem">
+              <div class="item active" id="slideInfo">
+                <h2>Loading...</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-</div>
-</div> <!-- main wrapper -->
 {% endblock %}
