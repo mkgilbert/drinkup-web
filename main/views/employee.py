@@ -21,10 +21,11 @@ def add(request, venue_id):
         form = AddEmployeeForm()
     else:
         return HttpResponseRedirect('/user/home/' + str(venue.id) + '/add-employee/')
-    return render(request, 'main/employee_add.html', {'form': form})
+    return render(request, 'main/employee_add.html', {'form': form, "venue": venue})
 
 @login_required()
 def edit(request, venue_id, employee_id):
+    venue = Venue.objects.get(pk=venue_id)
     employee = Employee.objects.get(pk=employee_id)
     if request.method == 'POST':
         form = AddEmployeeForm(request.POST, instance=employee)
@@ -37,4 +38,4 @@ def edit(request, venue_id, employee_id):
         form = AddEmployeeForm(instance=employee)
     else:
         return HttpResponseRedirect('/user/home/' + str(employee.venue.id) + '/employee/' + str(employee.id) + '/edit-employee/')
-    return render(request, 'main/employee_edit.html', {'form': form})
+    return render(request, 'main/employee_edit.html', {'form': form, "venue": venue})

@@ -10,7 +10,10 @@ from main.forms import AddMenuForm
 def display(request, menu_id):
     menu = Menu.objects.get(id=menu_id)
     items = Item.objects.all()
-    return render(request, "main/menu.html", {'user': request.user, 'menu': menu, 'items': items})
+    return render(request, "main/menu.html", {'user': request.user,
+                                              'menu': menu,
+                                              'venue': menu.venue,
+                                              'items': items})
 
 @login_required()
 def add(request, venue_id):
@@ -27,7 +30,7 @@ def add(request, venue_id):
         form = AddMenuForm()
     else:
         return HttpResponseRedirect('/user/home/' + str(venue.id) + '/add-menu/')
-    return render(request, 'main/menu_add.html', {'form': form})
+    return render(request, 'main/menu_add.html', {'form': form, 'venue': venue})
 
 @login_required()
 def edit(request, menu_id):
@@ -43,4 +46,4 @@ def edit(request, menu_id):
         form = AddMenuForm(instance=menu)
     else:
         return HttpResponseRedirect('/user/home/menu/' + str(menu.id) + '/edit-menu/')
-    return render(request, 'main/menu_edit.html', {'form': form})
+    return render(request, 'main/menu_edit.html', {'form': form, 'venue': menu.venue})

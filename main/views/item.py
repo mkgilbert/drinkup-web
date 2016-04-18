@@ -20,7 +20,7 @@ def add(request, menu_id):
         form = AddItemForm()
     else:
         return HttpResponseRedirect('/user/home/menu/' + str(menu.id) + '/add-item')
-    return render(request, 'main/item_add.html', {'form': form})
+    return render(request, 'main/item_add.html', {'form': form, 'venue': menu.venue})
 
 
 @login_required()
@@ -40,4 +40,4 @@ def edit(request, menu_id, item_id):
         form = AddItemForm(instance=item)
     else:
         return HttpResponseRedirect('/user/home/menu/' + str(menu.id) + '/edit-item')
-    return render(request, 'main/item_edit.html', {'form': form})
+    return render(request, 'main/item_edit.html', {'form': form, 'venue': menu.venue})

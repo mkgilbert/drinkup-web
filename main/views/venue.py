@@ -8,6 +8,7 @@ from main.forms import AddVenueForm
 
 @login_required()
 def add(request):
+    venue = request.user.venues.first()
     if request.method == 'POST':
         form = AddVenueForm(request.POST)
         if form.is_valid():
@@ -20,7 +21,7 @@ def add(request):
         form = AddVenueForm()
     else:
         return HttpResponseRedirect('/user/add-venue/')
-    return render(request, 'main/venue_add.html', {'form': form})
+    return render(request, 'main/venue_add.html', {'form': form, 'venue': venue})
 
 @login_required()
 def edit(request, venue_id):
@@ -36,4 +37,4 @@ def edit(request, venue_id):
         form = AddVenueForm(instance=venue)
     else:
         return HttpResponseRedirect('/user/home/' + str(venue.id) + '/edit-venue/')
-    return render(request, 'main/venue_edit.html', {'form': form})
+    return render(request, 'main/venue_edit.html', {'form': form, 'venue': venue})

@@ -37,6 +37,7 @@ def user_logout(request):
 @login_required()
 def user_edit(request):
     user = request.user
+    venue = user.venues.first()
     if request.method == 'POST':
         form = UserCreationForm(request.POST, instance=user)
         if form.is_valid():
@@ -48,4 +49,4 @@ def user_edit(request):
         form = UserCreationForm(instance=user)
     else:
         return HttpResponseRedirect('/user/home/edit-user/')
-    return render(request, 'main/user_edit.html', {'form': form})
+    return render(request, 'main/user_edit.html', {'form': form, 'venue': venue})

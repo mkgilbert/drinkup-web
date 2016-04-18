@@ -8,7 +8,6 @@ from django.template.defaulttags import register
 from main.models import Order
 
 
-
 def order(request):
     orders = Order.objects.all()
     items = {}
@@ -16,16 +15,6 @@ def order(request):
         items[ord.id] = ord.items.all()
     return render(request, 'order.html',{'orders': orders, 'items':items})
 
-
-...
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
-
-
-
-#def home(request, user_id):
- #   user = User.objects.get(pk=user_id)
-  #  venues = user.venue_set.all()
-   # menus = Menu.objects.all()
-    #return render(request, "main/home.html", {'user': user, 'venues': venues, 'menus': menus})
