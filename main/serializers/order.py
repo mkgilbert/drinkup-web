@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from main.models import (Order, Item, ItemOrderLink, Customer)
+from main.models import (Order, Item, ItemOrderLink, Customer, Employee)
 from .menu import ItemSerializer
 from .customer import CustomerSerializer
 from .venue import VenueSerializer
@@ -30,6 +30,17 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Order.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        print(type(validated_data))
+        time_comp = validated_data.get('time_completed')
+        is_del = validated_data.get('is_delivered')
+        if time_comp is not None:
+            instance.time_completed = validated_data.get('time_completed', instance.time_completed)
+        if is_del is not None:
+            instance.is_delivered = validated_data.get('is_delivered', instance.is_delivered)
+        instance.save()
+        return instance
 
 
 class CreateOrderElement(serializers.Serializer):

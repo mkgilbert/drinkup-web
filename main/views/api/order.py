@@ -2,8 +2,9 @@ from django.http.response import HttpResponse
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from main.models import Menu, Item, Venue, Customer, Order, ItemOrderLink
+from main.models import Menu, Item, Venue, Customer, Order, ItemOrderLink, Employee
 from main.serializers.order import OrderSerializer, CreateOrderElement
+from main.serializers.employee import EmployeeSerializer
 
 @api_view(['GET',])
 def order_detail(request, venue_id, order_id):
@@ -17,7 +18,7 @@ def order_detail(request, venue_id, order_id):
     serializer = OrderSerializer(order)
     return Response(serializer.data)
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST','PATCH'])
 def order(request, venue_id, cust_id):
     """
     Get or create a new order
@@ -35,6 +36,29 @@ def order(request, venue_id, cust_id):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    #### TODO: This doesn't work! #######
+    if request.method == 'PATCH':
+        try:
+            order_id = request.data.pop('order_id')
+            order = Order.objects.get(pk=order_id)
+            if request.data.get('employee'):
+                emp_info = request.data.get('employee')
+                employee = Employee.objects.get(pk=emp_info['id'])
+                order.employee = employee
+                order.save()
+                return Response(status=status.HTTP_200_OK)
+            #print(emp_name)
+            #request.data['employee'] = {'name': emp_name}
+        except Exception as e:
+            print(e)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        #print(request.data.get('employee'))
+        serializer = OrderSerializer(order, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
     if request.method == 'POST':
         try:
             venue = Venue.objects.get(pk=venue_id)
@@ -50,5 +74,5 @@ def order(request, venue_id, cust_id):
         if serializer.is_valid():
             print(serializer.validated_data)
             serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_404_NOT_FOUND)
