@@ -1,6 +1,46 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block style %}
+.nav-sidebar > .old > a,
+.nav-sidebar > .old > a:focus {
+  color: #fff;
+  background-color: #CA4247;
+}
+.nav-sidebar > .old > a:hover {
+  color: #fff;
+  background-color: #AF3A3F;
+}
+
+.nav-sidebar > .semiold > a,
+.nav-sidebar > .semiold > a:focus {
+  color: #fff;
+  background-color: #CA7842;
+}
+.nav-sidebar > .semiold > a:hover {
+  color: #fff;
+  background-color: #AF683A;
+}
+
+.nav-sidebar > .seminew > a,
+.nav-sidebar > .seminew > a:focus {
+  color: #fff;
+  background-color: #CAB342;
+}
+.nav-sidebar > .seminew > a:hover {
+  color: #fff;
+  background-color: #AF9B3A;
+}
+
+.nav-sidebar > .new > a,
+.nav-sidebar > .new > a:focus {
+  color: #fff;
+  background-color: #6BCA42;
+}
+.nav-sidebar > .new > a:hover {
+  color: #fff;
+  background-color: #5DAF3A;
+}
+
 {% endblock %}
 {% block navtype %}fixed{% endblock %}
 {% block bodyattributes %}onload="doOnce()"{% endblock %}
@@ -14,6 +54,27 @@ function setActiveSlide(slideno){
     document.getElementsByName("slide"+slideno).className = "item active";
     activeslide = slideno;
     doOnce();
+}
+
+function getTimeDifference(dateInput){
+    var dateNow = new Date(); 
+    
+    var dateOrder = new Date(dateInput.substring(0, 4), dateInput.substring(5, 7)-1,
+                             dateInput.substring(8, 10), dateInput.substring(11, 13),
+                             dateInput.substring(14, 16), dateInput.substring(17, 19), 0);
+    var timescale = "";
+    var diffMins = Math.round((dateNow - dateOrder)/ 60000)+dateNow.getTimezoneOffset();
+
+    if(diffMins < 7){
+        timescale = "new";
+    } else if(diffMins >= 7 && diffMins < 14){
+        timescale = "seminew";
+    } else if(diffMins >= 14 && diffMins < 21){
+        timescale = "semiold";
+    } else{
+        timescale = "old";
+    }
+    return timescale;
 }
 
 function doOnce(){
@@ -39,8 +100,9 @@ $.ajax({
                 orders+= " class=\"active\"><a onclick=\"\" href=\"#\">Order " + data[i].id + "</a></li>\n";
             }
             else{
-                orders+= "><a onclick=\"setActiveSlide(" + data[i].id + ")\" href=\"#\">Order " + data[i].id + "</a></li>\n";
+                orders+= " class=\"" + getTimeDifference(data[i].time_created) + "\"><a onclick=\"setActiveSlide(" + data[i].id + ")\" href=\"#\">Order " + data[i].id + "</a></li>\n";
             }
+
             orderdetails += "\" id=\"slideInfo\" name=\"slide" + data[i].id + "\">\n<h2>Order: " + data[i].id + "</h2>";
 
             if(data[i].employee != null){
