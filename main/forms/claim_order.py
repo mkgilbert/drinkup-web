@@ -1,8 +1,9 @@
 from django import forms
-from main.models import Order
+from main.models import Employee, Order
 
-class ClaimOrder(forms.ModelForm):
+
+class ClaimOrderForm(forms.ModelForm):
 
     class Meta:
         model = Order
-        fields = 'employee'
+        fields = ('__all__')
