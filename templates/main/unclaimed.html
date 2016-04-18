@@ -2,22 +2,62 @@
 {% block head %}
 {% endblock %}
 {% block body %}
-     <h1>Unclaimed Orders:</h1>
-{% if unclaimed %}
+     <h1>{{ venue.name }} Undelivered Orders:</h1>
+{% if orders %}
     <ul>
-    {% for order in unclaimed %}
-        {% if not order.employee_id %}
+    {% for order in orders %}
             <div>
             <h3> Order Number: {{ order.id }}</h3>
             <h3>{{ order.customer }}</h3>
-            <button>Done</button>
+            <form class="form" action="">
+            <label>Employee delivering order: </label>
+            <select>
+                {% for emp in employees %}
+                    <option value="{{ emp.id }}">{{ emp.name }}</option>
+                {% endfor %}
+            </select>
+            <input name="order_id" type="hidden" value="{{ order.id }}" />
+            <input name="cust_id" type="hidden" value="{{ order.customer.id }}" />
+            <button type="submit">Deliver</button>
+            </form>
             </div>
-        {% endif %}
     {% endfor %}
 </ul>
     {% endif %}
 {% endblock %}
-{% block script %}
+{% block js %}
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        console.log("ready!");
+        $(".form").on('submit', function() {
+            updateOrder(this);
+        });
+    });
 
+    function updateOrder(form_info) {
+        var data = form_info.elements;
+        var emp_id = data[0].value;
+        var order_id = data[1].value;
+        var cust_id = data[2].value;
+        console.log("order: " + order_id + " emp: " + emp_id + " cust: " + cust_id);
+        console.log("url: " + "/api/" + {{ venue.id }} + "/order/" + cust_id);
+
+        var query = {};
+        query["order_id"] = order_id;
+        query["employee"] = {"id": emp_id};
+        var json = JSON.stringify(query);
+
+        $.ajax({
+            type: "PATCH",
+            url: "/api/" + {{ venue.id }} + "/order/" + cust_id + "/?format=json",
+            data: json,
+            contentType: "application/json",
+            success: function() {
+                console.log("successful patch!")
+            }
+        });
+    }
+
+</script>
 {% endblock %}

@@ -17,7 +17,7 @@ def customer_detail(request, venue_id, cust_id):
 
 
 @api_view(['GET', 'POST'])
-#@csrf_exempt
+@csrf_exempt
 def customer_list(request, venue_id):
     """
     List all customers in a venue or create a new one

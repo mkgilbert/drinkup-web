@@ -1,7 +1,8 @@
-from django.http.response import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view, permission_classes
 from main.models import Menu, Item, Venue, Customer, Order, ItemOrderLink, Employee
 from main.serializers.order import OrderSerializer, CreateOrderElement
 from main.serializers.employee import EmployeeSerializer
@@ -19,6 +20,7 @@ def order_detail(request, venue_id, order_id):
     return Response(serializer.data)
 
 @api_view(['GET', 'POST','PATCH'])
+#@permission_classes((AllowAny, ))
 def order(request, venue_id, cust_id):
     """
     Get or create a new order
@@ -36,8 +38,8 @@ def order(request, venue_id, cust_id):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    #### TODO: This doesn't work! #######
     if request.method == 'PATCH':
+        print(request.data)
         try:
             order_id = request.data.pop('order_id')
             order = Order.objects.get(pk=order_id)
