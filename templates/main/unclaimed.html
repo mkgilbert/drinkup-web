@@ -6,23 +6,26 @@
 {% if orders %}
     <ul>
     {% for order in orders %}
-            <div>
-            <h3> Order Number: {{ order.id }}</h3>
-            <h3>{{ order.customer }}</h3>
-            <form class="form" action="">
-            <label>Employee delivering order: </label>
-            <select>
-                {% for emp in employees %}
-                    <option value="{{ emp.id }}">{{ emp.name }}</option>
-                {% endfor %}
-            </select>
-            <input name="order_id" type="hidden" value="{{ order.id }}" />
-            <input name="cust_id" type="hidden" value="{{ order.customer.id }}" />
-            <button type="submit">Deliver</button>
-            </form>
+            <div class="panel panel-default">
+            <div class="panel-heading"><h3> Order Number: {{ order.id }}</h3></div>
+            <ul class="list-group">
+                <li class="list-group-item"><h3>{{ order.customer }}</h3></li>
+                <form class="form" action="">
+                    <li class="list-group-item"<label>Employee delivering order: </label>
+                        <select>
+                            {% for emp in employees %}
+                                <option value="{{ emp.id }}">{{ emp.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <input name="order_id" type="hidden" value="{{ order.id }}" />
+                        <input name="cust_id" type="hidden" value="{{ order.customer.id }}" />
+                        <button class="btn btn-lg" type="submit">Deliver</button>
+                    </li>
+                </form>
+            </ul>
             </div>
     {% endfor %}
-</ul>
+    </ul>
     {% endif %}
 {% endblock %}
 {% block js %}
