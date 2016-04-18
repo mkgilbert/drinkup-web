@@ -7,7 +7,7 @@
     {% if venues %}
         <h4>Here are your registered venues:</h4>
         {% for venue in venues %}
-            {{ venue.name }} <a href="{{ venue.id }}/edit-venue/">Edit</a>
+            {{ venue.name }} <a href="{{ venue.id }}/edit-venue/">Edit</a> <a href="test/{{ venue.id }}">Bartender Interface</a>
             <ul>
                 <li>Hours: {{ venue.hours }}</li>
                 <li>Address: {{ venue.address }}</li>
