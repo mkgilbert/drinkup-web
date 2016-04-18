@@ -114,11 +114,21 @@ $.ajax({
             }
 
             if(data[i].items.length != 0){
-                orderdetails += "<ol id=\"orderlist\">";
-                for (j = 0; j < data[i].items.length; j++) {
-                    orderdetails += "<li>Item " + (j+1) + ": " + data[i].items[j].name + " Status: " + data[i].items[j].status +  "</li>";
+                orderdetails += "<div class=\"table-responsive\">\n";
+                orderdetails += "\t<table class=\"table table-striped\">\n";
+                orderdetails += "\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>Item #</th>\n";
+                orderdetails += "\t\t\t\t<th>Item Name</th>\n\t\t\t\t<th>Quantity</th>\n";
+                orderdetails += "\t\t\t\t<th>Status</th>\n\t\t\t</tr>\n\t\t</thead>\n\t<tbody>\n";
+                for (j = 0; j < data[i].items.length; j++) { 
+                    if(data[i].items[j].status == "incomplete"){
+                        var rowcolor = " class=\"danger\"";  
+                    } else{
+                        var rowcolor = " class=\"success\"";
+                    }        
+                    orderdetails += "<tr" + rowcolor + "><td>" + (j+1) + "</td><td>" + data[i].items[j].name + "</td><td>" + data[i].items[j].quantity + "</td><td><strong class=\"text-capitalize\">" + data[i].items[j].status +  "</strong></td></tr>";
                 }
-                orderdetails += "</ol>";
+                orderdetails += "\t\t</tbody>\n\t</table>\n</div>";
+
                 orderdetails += "<button type=\"button\" class=\"btn btn-success btn-lg\">Complete All</button>";
             }
             else{
