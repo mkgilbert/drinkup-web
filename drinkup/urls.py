@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
 from main.views import (home, user_session, index, registration, venue, menu, item, employee, order, test, unclaimed)
-
+from main.views.reports import summary
 
 urlpatterns = [
     url(r'^login/', user_session.user_login, name='user_login'),
@@ -47,5 +47,8 @@ urlpatterns = [
     url(r'user/home/order', order, name ='order'),
 
     url(r'user/home/venue/(?P<venue_id>\d+)/unclaimed', unclaimed, name ='unclaimed'),
+
+    url(r'^user/home/venue/(?P<venue_id>\d+)/reports/summary', summary.summary_report, name='summary_report'),
+
 
 ]
