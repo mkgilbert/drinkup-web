@@ -1,35 +1,77 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block body %}
-    <h1>Drink Up!</h1>
-    <a href="/logout/">logout</a>
-    <h3>Welcome, {{ user.username }} <a href="edit-user/">Edit</a></h3>
+
+    <div>
+    <h1 style="display: inline-block">Welcome, {{ user.username }}</h1>
+    <a style="display: inline-block; padding-left: 1%" href="edit-user/"> edit</a>
+    </div>
+
     {% if venues %}
-        <h4>Here are your registered venues:</h4>
+        <h3>Registered Venues:</h3>
         {% for venue in venues %}
-            {{ venue.name }} <a href="{{ venue.id }}/edit-venue/">Edit</a> <a href="test/{{ venue.id }}">Bartender Interface</a>
+            <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div style="display: inline-block">
+        <h3 class="panel-title" style="font-weight: bold; font-size: xx-large" >{{ venue.name }} </h3>
+                <a  href="{{ venue.id }}/edit-venue/">edit</a>
+                    </div>
+
+                <a style="float: right; vertical-align: bottom;" href="test/{{ venue.id }}">
+               <button type="button" class="btn btn-default btn-lg">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Bartender Interface
+            </button>
+                 </a>
+
+            </div>
+            <div class="panel-body">
             <ul>
-                <li>Hours: {{ venue.hours }}</li>
-                <li>Address: {{ venue.address }}</li>
-                <li>Phone: {{ venue.phone }}</li>
-                <li>Service Type: {{ venue.service_type }}</li>
-                <li>Employees:</li>
+                <h4>Hours: {{ venue.hours }}</h4>
+                <h4>Address: {{ venue.address }}</h4>
+                <h4>Phone: {{ venue.phone }}</h4>
+                <h4>Service Type: {{ venue.service_type }}</h4>
+
+
+        <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapseemp{{ venue.id }}">Employees</a>
+        </h4>
+      </div>
+      <div id="collapseemp{{ venue.id }}" class="panel-collapse collapse in">
+        <div class="panel-body">
                 {% for employee in employees %}
                     {% if venue == employee.venue %}
                         <ul>
-                            <li>{{ employee.name }} <a href="{{ venue.id }}/employee/{{ employee.id }}/edit-employee/">Edit</a></li>
+                            <h4>{{ employee.name }} <a href="{{ venue.id }}/employee/{{ employee.id }}/edit-employee/"><small>edit</small></a></h4>
                             <ul>
                                 <li>Pin: {{ employee.pin }}</li>
                             </ul>
                         </ul>
                     {% endif %}
                 {% endfor %}
-            <a href="{% url 'employee_add' venue.id %}">Add an Employee</a>
-                <li>Menus:</li>
-            {% for menu in menus %}
+        <a href="{% url 'employee_add' venue.id %}">
+            <button type="button" class="btn btn-default" aria-label="Left Align">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Employee
+            </button>
+        </a>
+        </div>
+      </div>
+
+
+<div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapsemenu{{ venue.id }}">Menu</a>
+        </h4>
+      </div>
+      <div id="collapsemenu{{ venue.id }}" class="panel-collapse collapse in">
+        <div class="panel-body">
+        {% for menu in menus %}
                 {% if venue == menu.venue %}
                     <ul>
-                    <li>{{ menu.name }} <a href="menu/{{ menu.id }}/edit-menu/">Edit</a></li>
+                    <h4>{{ menu.name }} <a href="menu/{{ menu.id }}/edit-menu/"><small>edit</small></a></h4>
                     <ul>
                         <li>Description: {{ menu.description }}</li>
                         <li><a href="menu/{{ menu.id }}/">Edit Menu Items</a></li>
@@ -37,14 +79,25 @@
                     </ul>
                 {% endif %}
             {% endfor %}
-
-            <a href="{% url 'menu_add' venue.id %}">Add a Menu</a>
+            <a href="{% url 'menu_add' venue.id %}">
+                <button type="button" class="btn btn-default" aria-label="Left Align">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Menu
+            </button>
+            </a>
             </ul>
-
+            </div>
+        </div>
         {% endfor %}
+
 
     {% else %}
         <h4>You haven't registered any venues</h4>
     {% endif %}
-    <a href="{% url 'venue_add' %}">Add a Venue</a>
+
+    <a href="{% url 'venue_add' %}">
+    <button type="button" class="btn btn-default" aria-label="Left Align">
+  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+ Add a Venue
+</button>
+   </a>
 {% endblock %}
