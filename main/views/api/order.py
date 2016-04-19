@@ -81,3 +81,15 @@ def order(request, venue_id, cust_id):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
+
+@api_view(['GET'])
+def complete_order(request, venue_id, order_id):
+    try:
+        order = Order.objects.get(pk=order_id)
+    except Order.DoesNotExist:
+        return Response({"invalid": "true"})
+
+    if request.method == 'GET':
+        order.complete_all_items()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)

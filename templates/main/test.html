@@ -145,6 +145,11 @@ function getTimeDifference(dateInput){
 
 function completeOrder(){
     console.log("Attemping to complete order " + activeslide);
+    $.ajax({
+        url : '/api/' + {{ venue.id }} + '/complete_order/' + activeslide + '?format=json',
+        dataType : 'json',
+        type : 'GET',
+    });
 }
 
 function completeItem(itemno){

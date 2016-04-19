@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from .venue import Venue
 from .menu import Item
@@ -56,3 +57,11 @@ class Order(models.Model):
 
     def get_item_links(self):
         return ItemOrderLink.objects.filter(order = self)
+
+    def complete_all_items(self):
+        links = self.get_item_links()
+        for link in links:
+            link.status = "complete"
+            link.save()
+        self.time_completed = datetime.now()
+        self.save()

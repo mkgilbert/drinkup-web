@@ -29,4 +29,6 @@ urlpatterns = [
         name='api_order'),
     url(r'^api/(?P<venue_id>\d+)/order_item/(?P<link_id>\d+)/$', item_order_link.order_item,
         name='api_order_item'),
+    url(r'^api/(?P<venue_id>\d+)/complete_order/(?P<order_id>\d+)/$', order.complete_order,
+        name='api_complete_order'),
 ]
