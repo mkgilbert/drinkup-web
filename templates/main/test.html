@@ -41,6 +41,25 @@
   background-color: #5DAF3A;
 }
 
+.left {
+    left: -50px;
+}
+.right {
+    right: -50px;
+}
+
+.control {
+    position: absolute;
+    top: 200px;
+    bottom: 0;
+    width: 50px;
+    font-size: 50px;
+    color: #428BCA;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0,0,0,.7);
+    background-color: rgba(0,0,0,0);
+}
+
 {% endblock %}
 {% block navtype %}fixed{% endblock %}
 {% block bodyattributes %}onload="doOnce()"{% endblock %}
@@ -49,11 +68,58 @@
 <script type="text/javascript">
 
 var activeslide = -1;
+var elementarray = [];
 
 function setActiveSlide(slideno){
     document.getElementsByName("slide"+slideno).className = "item active";
     activeslide = slideno;
     doOnce();
+}
+
+function getActiveElementPos(){
+    var i;
+    var index;
+    for (i = 0; i < elementarray.length; i++) {
+        if(elementarray[i] == activeslide){
+            index = i;
+            break;
+        }
+    }
+    return index;
+}
+
+function shiftLeft(){
+    if(activeslide == -1){
+        activeslide = elementarray[elementarray.length-1];
+        doOnce();
+    }else{
+        var checkvalue = getActiveElementPos();
+        if(checkvalue == 0){
+            activeslide = elementarray[checkvalue+1];
+            doOnce();
+        }
+        else{
+            activeslide = elementarray[checkvalue-1];
+            doOnce();
+        }
+    }
+}
+
+function shiftRight(){
+    if(activeslide == -1){
+        activeslide = elementarray[0];
+        doOnce();
+    }else{
+        var checkvalue = getActiveElementPos();
+        if(checkvalue == elementarray.length-1){
+            activeslide = elementarray[0];
+            doOnce();
+        }
+        else{
+            activeslide = elementarray[checkvalue+1];
+            doOnce();
+        }
+    }
 }
 
 function getTimeDifference(dateInput){
@@ -77,6 +143,14 @@ function getTimeDifference(dateInput){
     return timescale;
 }
 
+function completeOrder(){
+    console.log("Attemping to complete order " + activeslide);
+}
+
+function completeItem(itemno){
+    console.log("Attemping to complete item " + itemno);
+}
+
 function doOnce(){
 $.ajax({
     url : '/api/' + {{venue.id}} + '/order/0/?format=json',
@@ -88,11 +162,14 @@ $.ajax({
         var orderdetails = "";
         var i;
         var j;
+
+        elementarray = [];
         
         if(activeslide == -1){
             orderdetails += "\n\t<div class=\"item active\" id=\"slideInfo\"><center><h2>Select an order to begin.</h2></center></div>";
         }
         for (i = 0; i < data.length; i++) {
+            elementarray.push(data[i].id);
             orders += "<li";
             orderdetails += "\n\t\t<div class=\"item";
             if(data[i].id == activeslide){
@@ -118,18 +195,24 @@ $.ajax({
                 orderdetails += "\t<table class=\"table table-striped\">\n";
                 orderdetails += "\t\t<thead>\n\t\t\t<tr>\n\t\t\t\t<th>Item #</th>\n";
                 orderdetails += "\t\t\t\t<th>Item Name</th>\n\t\t\t\t<th>Quantity</th>\n";
-                orderdetails += "\t\t\t\t<th>Status</th>\n\t\t\t</tr>\n\t\t</thead>\n\t<tbody>\n";
+                orderdetails += "\t\t\t\t<th>Status</th>\t\t\t\t<th>Finish Item</th>\n\t\t\t</tr>\n\t\t</thead>\n\t<tbody>\n";
                 for (j = 0; j < data[i].items.length; j++) { 
                     if(data[i].items[j].status == "incomplete"){
-                        var rowcolor = " class=\"danger\"";  
+                        var rowcolor = " class=\"danger\"";
+                        var compbutton = "";
+                        var compbuttontext = "Complete";
                     } else{
-                        var rowcolor = " class=\"success\"";
+                        var rowcolor = " class=\"success\"";  
+                        var compbutton = "disabled";
+                        var compbuttontext = "Completed";
                     }        
-                    orderdetails += "<tr" + rowcolor + "><td>" + (j+1) + "</td><td>" + data[i].items[j].name + "</td><td>" + data[i].items[j].quantity + "</td><td><strong class=\"text-capitalize\">" + data[i].items[j].status +  "</strong></td></tr>";
+                    orderdetails += "<tr" + rowcolor + "><td>" + (j+1) + "</td><td>" + data[i].items[j].name + "</td><td>" + data[i].items[j].quantity 
+                                    + "</td><td><strong class=\"text-capitalize\">" + data[i].items[j].status +  "</strong></td><td>"
+                                    + "<button type=\"button\" class=\"btn btn-success " + compbutton + " btn-xs\" onclick=\"completeItem("+ data[i].items[j].id + ")\">" + compbuttontext + "</button></tr>";
                 }
                 orderdetails += "\t\t</tbody>\n\t</table>\n</div>";
 
-                orderdetails += "<center><button type=\"button\" class=\"btn btn-success btn-lg\">Complete All</button></center>";
+                orderdetails += "<center><button type=\"button\" class=\"btn btn-success btn-lg\" onclick=\"completeOrder()\">Complete All</button></center>";
             }
             else{
                 orderdetails += "<p>There are no items in this order.</p>";
@@ -142,6 +225,7 @@ $.ajax({
         document.getElementById("carouselitem").innerHTML = orderdetails;
 
         console.log(data);
+        console.log(elementarray);
     }
 });
 }
@@ -171,6 +255,15 @@ setInterval(function() {
                 <h2>Loading...</h2>
               </div>
             </div>
+            <!-- Controls -->
+            <a class="control left" href="#" role="button" data-slide="prev" onclick="shiftLeft()">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="control right" href="#" role="button" data-slide="next" onclick="shiftRight()">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
           </div>
         </div>
       </div>
