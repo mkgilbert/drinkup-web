@@ -6,11 +6,10 @@ from main.models import Venue, Menu, Employee
 def home(request):
     user = request.user
     venues = user.venues.all()
-    venue = venues[0]
     menus = Menu.objects.all()
     employees = Employee.objects.all()
     return render(request, "main/home.html", {'user': user,
-                                              'venue': venue,
+                                              'venue': "",
                                               'venues': venues,
                                               'menus': menus,
                                               'employees': employees})
