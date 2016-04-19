@@ -62,10 +62,13 @@ def order(request, venue_id, cust_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'POST':
+        print("venue: " + str(venue_id))
+        print("customer: " + str(cust_id))
         try:
             venue = Venue.objects.get(pk=venue_id)
+            print(venue)
             customer = Customer.objects.get(pk=cust_id)
-
+            print(customer)
         except Venue.DoesNotExist or Customer.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -77,4 +80,4 @@ def order(request, venue_id, cust_id):
             print(serializer.validated_data)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.errors)

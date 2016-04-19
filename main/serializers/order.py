@@ -9,11 +9,11 @@ from .employee import EmployeeSerializer
 class ItemOrderLinkSerializer(serializers.HyperlinkedModelSerializer):
     id = serializers.ReadOnlyField(source='item.id')
     name = serializers.ReadOnlyField(source='item.name')
+    link_id = serializers.ReadOnlyField(source='id')
 
     class Meta:
         model = ItemOrderLink
-        fields = ('id', 'name', 'status', 'quantity', 'item_order_price')
-
+        fields = ('id', 'link_id', 'name', 'status', 'quantity', 'item_order_price')
 
 class OrderSerializer(serializers.ModelSerializer):
     time_created = serializers.DateTimeField()
