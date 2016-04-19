@@ -13,7 +13,8 @@ def venue_detail(request, venue_id):
     try:
         venue = Venue.objects.get(pk=venue_id)
     except Venue.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        #return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response({"invalid": "true"})
     serializer = VenueSerializer(venue)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
