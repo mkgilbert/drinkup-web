@@ -15,6 +15,21 @@ class ItemOrderLinkSerializer(serializers.HyperlinkedModelSerializer):
         model = ItemOrderLink
         fields = ('id', 'link_id', 'name', 'status', 'quantity', 'item_order_price')
 
+    def create(self, validated_data):
+        return ItemOrderLink.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        print(type(validated_data))
+        status = validated_data.get('status')
+        qty = validated_data.get('quantity')
+        if status is not None:
+            instance.status = validated_data.get('status', instance.status)
+        if qty is not None:
+            instance.quantity = validated_data.get('quantity', instance.quantity)
+        instance.save()
+        return instance
+
+
 class OrderSerializer(serializers.ModelSerializer):
     time_created = serializers.DateTimeField()
     time_completed = serializers.DateTimeField()
