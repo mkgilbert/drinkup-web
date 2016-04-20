@@ -18,10 +18,15 @@
                 <a  href="{{ venue.id }}/edit-venue/">edit</a>
                     </div>
 
+                <a style="float: right; vertical-align: bottom;" href="{% url 'summary_report' venue.id %}">
+                    <button type="button" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports
+                    </button>
+                 </a>
                 <a style="float: right; vertical-align: bottom;" href="test/{{ venue.id }}">
-               <button type="button" class="btn btn-default btn-lg">
-                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Bartender Interface
-            </button>
+                    <button type="button" class="btn btn-default btn-lg">
+                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Bartender Interface
+                    </button>
                  </a>
 
             </div>
