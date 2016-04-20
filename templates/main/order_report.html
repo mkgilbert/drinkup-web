@@ -2,4 +2,30 @@
 {% block title %}Order Report{% endblock %}
 {% block body %}
     <h1>Order Reports</h1>
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Order #</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Employee</th>
+            <th>Number of items</th>
+            <th>Total</th>
+            <th>Paid</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.time_created }}</td>
+            <td>{% if order.is_delivered %}Delivered{% else %}Pending{% endif %}</td>
+            <td>{{ order.employee.name }}</td>
+            <td>{{ order.get_num_items }}</td>
+            <td>{{ order.get_total_formatted }}</td>
+            <td>{% if order.is_paid %}Yes{% else %}No{% endif %}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
 {% endblock %}

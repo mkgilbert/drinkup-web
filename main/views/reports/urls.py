@@ -6,4 +6,6 @@ urlpatterns = [
 
     url(r'^user/home/venue/(?P<venue_id>\d+)/reports/items', item.item_report, name='item_report'),
 
+    url(r'^user/home/venue/(?P<venue_id>\d+)/reports/orders', order.order_report, name='order_report'),
+
 ]

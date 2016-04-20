@@ -54,6 +54,8 @@ class Order(models.Model):
         item = Item.objects.get(pk=item_id)
         return ItemOrderLink.objects.create(order=self, item=item, quantity=qty,
                                         item_order_price=item.price)
+    def get_num_items(self):
+        return len(self.get_item_links())
 
     def get_item_links(self):
         return ItemOrderLink.objects.filter(order = self)
