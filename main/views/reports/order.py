@@ -12,4 +12,6 @@ def order_report(request, venue_id):
             continue
         orders.append(all_orders[i])
 
-    return render(request, 'main/order_report.html', {"orders": orders})
+    return render(request, 'main/order_report.html', {"orders": orders,
+                                                      "venue": venue,
+                                                      "view_name": "reports_orders"})

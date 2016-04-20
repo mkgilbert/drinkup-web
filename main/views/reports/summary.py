@@ -9,6 +9,7 @@ def summary_report(request, venue_id):
     orders = venue.orders.all()
     employees = venue.employees.all()
     return render(request, "main/summary_report.html", {"venue": venue,
-                                                                  "customers": customers,
-                                                                  "orders": orders,
-                                                                  "employees": employees})
+                                                        "customers": customers,
+                                                        "orders": orders,
+                                                        "employees": employees,
+                                                        "view_name": "reports_summary"})

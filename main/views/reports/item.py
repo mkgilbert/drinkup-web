@@ -14,4 +14,6 @@ def item_report(request, venue_id):
     for link in links:
         items_info[link.item] += 1
 
-    return render(request, "main/item_report.html", {"items_info": items_info})
+    return render(request, "main/item_report.html", {"items_info": items_info,
+                                                     "venue": venue,
+                                                     "view_name": "reports_drinks"})

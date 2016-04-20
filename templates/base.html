@@ -98,6 +98,12 @@
     {% endif %}
 
     {% block body %}{% endblock %}
+    {% block body2 %}{% endblock %}
+
+<!--Get the name of the current view and set that nav element to be highlighted-->
+{% if view_name %}
+    <script>document.getElementById("{{ view_name }}").className = 'active';</script>
+{% endif %}
 
 </body>
 
