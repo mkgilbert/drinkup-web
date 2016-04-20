@@ -149,11 +149,26 @@ function completeOrder(){
         url : '/api/' + {{ venue.id }} + '/complete_order/' + activeslide + '?format=json',
         dataType : 'json',
         type : 'GET',
+        success: function(data)
+        {
+            console.log("Order " + activeslide + " completed.");
+        }
     });
+    doOnce();
 }
 
 function completeItem(itemno){
     console.log("Attemping to complete item " + itemno);
+    $.ajax({
+        url : '/api/' + {{ venue.id }} + '/complete_item/' + itemno + '?format=json',
+        dataType : 'json',
+        type : 'GET',
+        success: function(data)
+        {
+            console.log("Item " + itemno + " completed.");
+        }
+    });
+    doOnce();
 }
 
 function doOnce(){
@@ -213,7 +228,7 @@ $.ajax({
                     }        
                     orderdetails += "<tr" + rowcolor + "><td>" + (j+1) + "</td><td>" + data[i].items[j].name + "</td><td>" + data[i].items[j].quantity 
                                     + "</td><td><strong class=\"text-capitalize\">" + data[i].items[j].status +  "</strong></td><td>"
-                                    + "<button type=\"button\" class=\"btn btn-success " + compbutton + " btn-xs\" onclick=\"completeItem("+ data[i].items[j].id + ")\">" + compbuttontext + "</button></tr>";
+                                    + "<button type=\"button\" class=\"btn btn-success " + compbutton + " btn-xs\" onclick=\"completeItem("+ data[i].items[j].link_id + ")\">" + compbuttontext + "</button></tr>";
                 }
                 orderdetails += "\t\t</tbody>\n\t</table>\n</div>";
 
