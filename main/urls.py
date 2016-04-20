@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from main.views.api import (customer, venue, menu, order, employee, item_order_link)
+from main.views.api import (customer, venue, menu, order, employee, item_order_link, item)
 
 urlpatterns = [
     # GET all customers for a venue or POST a new customer for a venue
@@ -31,4 +31,6 @@ urlpatterns = [
         name='api_order_item'),
     url(r'^api/(?P<venue_id>\d+)/complete_order/(?P<order_id>\d+)/$', order.complete_order,
         name='api_complete_order'),
+    url(r'^api/(?P<venue_id>\d+)/complete_item/(?P<item_id>\d+)/$', item.complete_item,
+        name='api_complete_item'),
 ]
