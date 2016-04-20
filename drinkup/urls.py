@@ -42,7 +42,7 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
 
-    url(r'user/home/order', order, name ='order'),
+    url(r'user/home/order/(?P<order_id>\d+)/$', order.detail, name ='order_detail'),
 
     url(r'user/home/venue/(?P<venue_id>\d+)/unclaimed', unclaimed, name ='unclaimed'),
 

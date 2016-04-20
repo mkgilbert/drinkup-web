@@ -8,12 +8,9 @@ from django.template.defaulttags import register
 from main.models import Order
 
 
-def order(request):
-    orders = Order.objects.all()
-    items = {}
-    for ord in orders:
-        items[ord.id] = ord.items.all()
-    return render(request, 'order.html',{'orders': orders, 'items':items})
+def detail(request, order_id):
+    order = Order.objects.get(id=order_id)
+    return render(request, 'order.html', {'order': order})
 
 @register.filter
 def get_item(dictionary, key):
