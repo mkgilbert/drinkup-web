@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view, permission_classes
 from main.models import Menu, Item, Venue, Customer, Order, ItemOrderLink, Employee
 from main.serializers.order import OrderSerializer, CreateOrderElement
 from main.serializers.employee import EmployeeSerializer
+from datetime import datetime
 
 @api_view(['GET',])
 def order_detail(request, venue_id, order_id):
@@ -47,6 +48,17 @@ def order(request, venue_id, cust_id):
                 emp_info = request.data.get('employee')
                 employee = Employee.objects.get(pk=emp_info['id'])
                 order.employee = employee
+                order.save()
+                return Response(status=status.HTTP_200_OK)
+            if request.data.get('pin'):
+                emp_pin = request.data.get('pin')
+                try:
+                    employee = Employee.objects.get(pin=emp_pin)
+                except Employee.DoesNotExist:
+                    return Response({"invalid": "true", "message": "employee does not exist with that pin"})
+                order.time_completed = datetime.now()
+                order.employee = employee
+                order.is_delivered = True
                 order.save()
                 return Response(status=status.HTTP_200_OK)
             #print(emp_name)

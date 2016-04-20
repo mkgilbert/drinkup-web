@@ -17,7 +17,7 @@ def employee_detail(request, venue_id, emp_id):
         venue = Venue.objects.get(pk=venue_id)
         employee = venue.employees.get(pk=emp_id)
     except Employee.DoesNotExist or Venue.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response({"invalid": "true"})
     serializer = EmployeeSerializer(employee)
     return Response(serializer.data)
 
@@ -32,7 +32,7 @@ def employee_list(request, emp_id):
     try:
         venue = Venue.employees.get(pk=emp_id)
     except Employee.DoesNotExist or Venue.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response({"invalid": "true"})
 
     if request.method == 'GET':
         # get all customers for this venue
