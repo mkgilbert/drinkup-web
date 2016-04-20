@@ -42,13 +42,12 @@ urlpatterns = [
 
     url(r'^admin/', admin.site.urls),
 
-    url(r'^', include('main.urls')),
-
     url(r'user/home/order', order, name ='order'),
 
     url(r'user/home/venue/(?P<venue_id>\d+)/unclaimed', unclaimed, name ='unclaimed'),
 
-    url(r'^user/home/venue/(?P<venue_id>\d+)/reports/summary', summary.summary_report, name='summary_report'),
+    url(r'^', include('main.urls')),
 
+    url(r'^', include('main.views.reports.urls')),
 
 ]

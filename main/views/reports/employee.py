@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from main.models import Venue, Employees
+from main.models import Venue, Employee
 
 @login_required()
 def customer_report(request, venue_id):

@@ -7,4 +7,4 @@ def customer_report(request, venue_id):
     venue = Venue.objects.get(pk=venue_id)
     customers = venue.customers.all()
     return render(request, "main/customer_report.html", {"venue": venue,
-                                                                  "customers": customers})
+                                                         "customers": customers})
