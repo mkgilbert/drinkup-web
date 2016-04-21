@@ -154,11 +154,44 @@ function completeOrder(){
             console.log("Order " + activeslide + " completed.");
         }
     });
-    doOnce();
+    setTimeout(function(){
+        doOnce();
+    }, 500); 
 }
+
+function promiseItem(itemno){
+    var returnvalue = 0;
+    $.ajax({
+        url : '/api/' + {{ venue.id }} + '/complete_item/' + itemno + '?format=json',
+        dataType : 'json',
+        type : 'GET',
+        success: returnvalue = 1,
+    });
+    return returnvalue;
+}
+
 
 function completeItem(itemno){
     console.log("Attemping to complete item " + itemno);
+    var p1 = new Promise(function(resolve, reject) {
+        if(promiseItem(itemno) == 1){
+            resolve("Item " + itemno + " completed.");
+        } else{
+            reject("Item " + itemno + " could not be completed.");
+        }
+    });
+
+    p1.then(function(value) {
+        console.log(value); // Success!
+    }, function(reason) {
+        console.log(reason); // Error!
+    });
+
+    setTimeout(function(){
+        doOnce();
+    }, 500);
+
+    /*console.log("Attemping to complete item " + itemno);
     $.ajax({
         url : '/api/' + {{ venue.id }} + '/complete_item/' + itemno + '?format=json',
         dataType : 'json',
@@ -168,7 +201,7 @@ function completeItem(itemno){
             console.log("Item " + itemno + " completed.");
         }
     });
-    doOnce();
+    doOnce();*/
 }
 
 function doOnce(){

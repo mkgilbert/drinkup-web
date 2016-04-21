@@ -3,5 +3,5 @@
 .idea/
 *.iml
 *.sqlite3
-
+main/migrations/
 main/migrations/0001_initial.py
