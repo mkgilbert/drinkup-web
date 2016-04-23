@@ -32,17 +32,17 @@
             </div>
             <div class="panel-body">
             <ul>
-                <h4>Hours: {{ venue.hours }}</h4>
-                <h4>Address: {{ venue.address }}</h4>
-                <h4>Phone: {{ venue.phone }}</h4>
-                <h4>Service Type: {{ venue.service_type }}</h4>
+                <h4 style="font-size: x-large">Hours: {{ venue.hours }}</h4>
+                <h4 style="font-size: x-large">Address: {{ venue.address }}</h4>
+                <h4 style="font-size: x-large">Phone: {{ venue.phone }}</h4>
+                <h4 style="font-size: x-large">Service Type: {{ venue.service_type }}</h4>
 
 
         <div class="panel-group" id="accordion">
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapseemp{{ venue.id }}">Employees</a>
+          <a style="font-size:xx-large" data-toggle="collapse" data-parent="#accordion" href="#collapseemp{{ venue.id }}">Employees</a>
         </h4>
       </div>
       <div id="collapseemp{{ venue.id }}" class="panel-collapse collapse in">
@@ -83,7 +83,7 @@
 
 <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapsemenu{{ venue.id }}">Menus</a>
+          <a style="font-size:xx-large" data-toggle="collapse" data-parent="#accordion" href="#collapsemenu{{ venue.id }}">Menus</a>
         </h4>
       </div>
       <div id="collapsemenu{{ venue.id }}" class="panel-collapse collapse in">
@@ -94,7 +94,7 @@
 
                         <div class="panel panel-default">
                         <!-- Default panel contents -->
-                        <div class="panel-heading"><h3>{{ menu.name }}</h3><small><a href="menu/{{ menu.id }}/"> edit</a></small></div>
+                        <div class="panel-heading"><h4>Menu: {{ menu.name }}</h4><small><a href="menu/{{ menu.id }}/"> edit</a></small></div>
                         <div class="panel-body">
                         <p>{{ menu.description }}</p>
                         </div>
@@ -121,7 +121,8 @@
                                       {% if item.category == 'soft' %}Soft Drink{% endif %}
                                       {% if item.category == 'other' %}Other{% endif %}
                                 </td>
-                                <td>${{ item.price }}</td>
+                                        <td>${{ cost|get_item:item.id }}</td>
+
                             </tr>
                                      {% endif %}
                                  {% endfor %}
@@ -152,7 +153,7 @@
     <a href="{% url 'venue_add' %}">
     <button type="button" class="btn btn-default" aria-label="Left Align">
   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
- Add a Venue
+ Add Venue
 </button>
    </a>
 {% endblock %}
