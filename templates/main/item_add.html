@@ -1,5 +1,71 @@
 {% extends "base.html" %}
+{% block bodyattributes %}onload="doOnce()"{% endblock %}
 {% block body %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script type="text/javascript">
+
+function doOnce(){
+$.ajax({
+    url : '/api/menu_listoff/' + {{menu.id}} + '/?format=json',
+    dataType : 'json',
+    type : 'GET',
+    success: function(data)
+    {
+        var text = ""; 
+        var i;
+        var items = data.items;
+        
+        if (items.length == 0){
+
+        }else{
+            text += "<div class=\"panel-heading\"><h4>Menu: {{ menu.name }}</h4></div>";
+            text += "<div class=\"panel-body\"><p>{{ menu.description }}</p></div>";
+            text += "<table class=\"table\"><tr><th>Name</th><th>Category</th><th>Price</th></tr>";
+            for (i = 0; i < items.length; i++) {
+                
+                text += "<tr><td>" + items[i].name + " <a href=\"edit-item/" + items[i].id + "\">edit</a></td>";
+                if(items[i].category == "beer"){
+                    var category = "Beer";
+                } else if(items[i].category == "wine"){
+                    var category = "Wine";
+                } else if(items[i].category == "mixed"){
+                    var category = "Mixed";
+                } else if(items[i].category == "liquor"){
+                    var category = "Hard Liquor";
+                } else if(items[i].category == "soft"){
+                    var category = "Soft Drink";
+                } else {
+                    var category = "Other";
+                }
+                text += "<td>" + category + "</td><td>$" + items[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + "</td></tr>";
+            }                                              /* number formatting function by VisioN of stackoverflow http://stackoverflow.com/a/14428340 */
+            text += "</table>";
+        }
+        document.getElementById("demo").innerHTML = text;
+
+        console.log(items);
+    }
+});
+}
+
+setInterval(function() {
+    /* AJAX call here. */
+    doOnce();
+
+}, 5000);
+</script>
+    {% if items %}
+        <h4>Here are your menu items:</h4>
+
+
+        <div class="panel panel-default" id="demo">
+        Loading...</div>
+
+    {% else %}
+        <h4>This menu doesn't have any items.</h4>
+    {% endif %}
+
     <h1>Add an item</h1>
     <form action="{{ next }}" method="post">
         <div>
