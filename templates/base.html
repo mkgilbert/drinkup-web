@@ -56,7 +56,7 @@
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li id="admin_home"><a href="#">Home</a></li>
-                            <li id="admin_employees"><a href="#">Employees</a></li>
+                            <li  id="admin_employees"><a href="#">Employees</a></li>
                             <li id="admin_reports"><a href="#">Reports</a></li>
 							<li id="admin_products"><a href="#">Menus</a></li>
                         </ul>
@@ -66,18 +66,18 @@
         <!-- User logout button -->
         {% if user.is_authenticated %}
             <div class="navbar-right">
-                <p class="navbar-text">Signed in as {{ user.username }}</p>
+                <p class="navbar-text">Logged in as {{ user.username }}</p>
                 <a href="{% url 'user_logout' %}">
-                    <button class="btn btn-default navbar-btn">Logout</button>
+                    <button class="btn btn-danger navbar-btn">Logout</button>
                 </a>
             </div>
         {% else %}
             <div class="navbar-right">
                 <a href="{% url 'user_login' %}">
-                    <button class="btn btn-default navbar-btn">sign in</button>
+                    <button class="btn btn-success navbar-btn">Log In</button>
                 </a>
                 <a href="/register/">
-                    <button class="btn btn-default navbar-btn">register</button>
+                    <button class="btn btn-primary navbar-btn">Register</button>
                 </a>
             </div>
         {% endif %}

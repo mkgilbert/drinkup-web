@@ -19,12 +19,12 @@
                     </div>
 
                 <a style="float: right; vertical-align: bottom;" href="{% url 'summary_report' venue.id %}">
-                    <button type="button" class="btn btn-default btn-lg">
+                    <button type="button" class="btn btn-warning btn-lg">
                         <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports
                     </button>
                  </a>
                 <a style="float: right; vertical-align: bottom;" href="test/{{ venue.id }}">
-                    <button type="button" class="btn btn-default btn-lg">
+                    <button type="button" class="btn btn-primary btn-lg">
                         <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Bartender Interface
                     </button>
                  </a>
@@ -73,7 +73,7 @@
 
 
         <a href="{% url 'employee_add' venue.id %}">
-            <button type="button" class="btn btn-default" aria-label="Left Align">
+            <button type="button" class="btn btn-success" aria-label="Left Align">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Employee
             </button>
         </a>
@@ -134,7 +134,7 @@
             {% endfor %}
 
                 <a href="{% url 'menu_add' venue.id %}">
-                <button type="button" class="btn btn-default" aria-label="Left Align">
+                <button type="button" class="btn btn-success" aria-label="Left Align">
              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Menu
                 </button>
                 </a>
@@ -151,7 +151,7 @@
     {% endif %}
 
     <a href="{% url 'venue_add' %}">
-    <button type="button" class="btn btn-default" aria-label="Left Align">
+    <button type="button" class="btn btn-success" aria-label="Left Align">
   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
  Add Venue
 </button>

@@ -5,7 +5,9 @@
         <div>
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Submit</button>
+            <button type="submit" class="btn btn-success" aria-label="Left Align">
+        Submit
+        </button>
         </div>
     </form>
 {% endblock %}
