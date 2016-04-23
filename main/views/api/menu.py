@@ -21,6 +21,23 @@ def menu_detail(request, venue_id):
     serializer = MenuSerializer(menu)
     return Response(serializer.data)
 
+@api_view(['GET',])
+def menu_listoff(request, menu_id):
+    """
+    Show all the items in a single menu
+    :param request:
+    :param venue_id:
+    :return:
+    """
+    try:
+        menu = Menu.objects.get(pk=menu_id)
+        venue = Venue.objects.get(pk=menu.venue.id)
+        # TODO: allow multiple menus...also figure out which one "get" gets
+    except Menu.DoesNotExist or Venue.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = MenuSerializer(menu)
+    return Response(serializer.data)
+
 @api_view(['GET'])
 def menu_list(request, venue_id):
     """

@@ -20,6 +20,9 @@ urlpatterns = [
     # GET - detailed menu info for a venue
     url(r'^api/(?P<venue_id>\d+)/menu_detail/$', menu.menu_detail,
         name='api_menu_detail'),
+    # GET - detailed menu info
+    url(r'^api/menu_listoff/(?P<menu_id>\d+)/$', menu.menu_listoff,
+        name='api_menu_listoff'),
     # GET - all orders by a certain customer or POST a new order
     url(r'^api/(?P<venue_id>\d+)/order/(?P<cust_id>\d+)/$', order.order,
         name='api_order'),
