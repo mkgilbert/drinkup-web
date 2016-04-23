@@ -8,6 +8,7 @@ from main.forms import AddItemForm
 @login_required()
 def add(request, menu_id):
     menu = Menu.objects.get(pk=menu_id)
+    items = Item.objects.filter(menu=menu)
     if request.method == 'POST':
         form = AddItemForm(request.POST)
         if form.is_valid():
@@ -15,12 +16,12 @@ def add(request, menu_id):
             new_item.menu = menu
             new_item.save()
             messages.success(request, "Item successfully added")
-            return HttpResponseRedirect('/user/home/menu/' + str(menu.id))
+            return HttpResponseRedirect('/user/home/menu/' + str(menu.id) + '/add-item')
     elif request.method == 'GET':
         form = AddItemForm()
     else:
         return HttpResponseRedirect('/user/home/menu/' + str(menu.id) + '/add-item')
-    return render(request, 'main/item_add.html', {'form': form, 'venue': menu.venue})
+    return render(request, 'main/item_add.html', {'form': form, 'items': items, 'venue': menu.venue, 'menu': menu})
 
 
 @login_required()
