@@ -1,5 +1,53 @@
 {% extends "reports_base.html" %}
 {% block title %}Employee Report{% endblock %}
 {% block body2 %}
-    <h1>Employee Reports</h1>
+    <h1>Employees</h1>
+    <div id="chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <table id="emps-table" class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Total Orders Delivered</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for emp in employees %}
+        <tr>
+            <td>{{ emp.name }}</td>
+            <td>{{ emp.orders.all|length }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $( function () {
+            $('#chart').highcharts({
+                data: {
+                    table: 'emps-table'
+                },
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Employees by Number of Orders Delivered'
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    title: {
+                        text: 'Number Delivered'
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                            this.point.y + ' ' + this.point.name.toLowerCase();
+                    }
+                }
+            });
+        });
+    </script>
+
 {% endblock %}
