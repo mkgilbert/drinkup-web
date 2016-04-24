@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+{% block head %}
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+{% endblock %}
 {% block body %}
-    <h1>Reporting</h1>
+    <h1>{{ venue.name }} Reports</h1>
     <nav class="navbar navbar-default">
         <ul class="nav navbar-nav">
           <li id="reports_summary"><a href="{% url 'summary_report' venue.id %}">Summary</a></li>
