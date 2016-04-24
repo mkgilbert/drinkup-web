@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block body %}
     <div class="jumbotron">
-  <div class="container">
-      <h1>DrinkUP!</h1>
-    {% if user.is_authenticated %}
-        <h3>Visit your  <a href="{% url 'home' %}">home</a> page to view all your information or  <a href="/logout/">logout</a> if you're done</h3>
-    {% else %}
-        <h3> <a href="/login/">Log in</a> or <a href="/register/">register</a> to view and edit your employees,menus,and reports</h3>
-        <a href="/login/">
-    {% endif %}
-  </div>
-</div>
+        <div class="container">
+            <h1>DrinkUP!</h1>
+                {% if user.is_authenticated %}
+                    <h3>Visit your  <a href="{% url 'home' %}">home</a> page to view all your information or  <a href="/logout/">logout</a> if you're done</h3>
+                {% else %}
+                    <h3> <a href="/login/">Log in</a> or <a href="/register/">register</a> to view and edit your employees,menus,and reports</h3>
+                    <a href="/login/">
+                {% endif %}
+        </div>
+    </div>
+    <img src="{% static 'img/drinkup_logo.jpg' %}" />
 {% endblock %}
