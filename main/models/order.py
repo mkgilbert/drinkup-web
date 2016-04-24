@@ -42,6 +42,14 @@ class Order(models.Model):
     def get_total_formatted(self):
         return "$" + "{:,.2f}".format(self.get_total() / 100.0)
 
+    @property
+    def get_time_to_complete(self):
+        if self.time_completed is None:
+            return None
+        else:
+            time = self.time_completed - self.time_created
+            return time.seconds
+
     def add_item(self, item_id, qty):
         """
         Must be used because we're using a "through" intermediary table (ItemOrderLink) instead of letting

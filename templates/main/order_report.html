@@ -1,35 +1,122 @@
 {% extends "reports_base.html" %}
-{% block title %}Order Report{% endblock %}
+{% block title %}Orders{% endblock %}
 {% block body2 %}
     <h1>Order Reports</h1>
-    <table class="table">
-    <thead>
-        <tr>
-            <th>Order #</th>
-            <th>Date</th>
-            <th>Status</th>
-            <th>Employee</th>
-            <th>Number of items</th>
-            <th>Total</th>
-            <th>Paid</th>
-        </tr>
-    </thead>
-    <tbody>
-    {% for order in orders %}
+    <div id="chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <table id="order-table"
+           class="table highchart"
+           data-graph-container-before="1"
+           data-graph-type="line"
+           data-graph-datalabels-enabled="1"
+           data-graph-xaxis-type="datetime">
+        <caption style="display:none;">Order History</caption>
+        <thead>
+            <tr>
+                <th>Order #</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Employee</th>
+                <th>Number of items</th>
+                <th>Total</th>
+                <th data-graph-skip="1">Paid</th>
+            </tr>
+        </thead>
+        <tbody id="order-table-body">
+        {% for order in orders %}
 
-        <tr>
+            <tr id="order_{{ order.id }}">
+                <td style="display:none;" id="hour_{{ order.id }}" class="hour">{{ order.time_created|date:"H" }}</td>
+                <td style="display:none;" id="delta_{{ order.id }}" class="delta">
+                    {% if order.get_time_to_complete %}
+                        {{ order.get_time_to_complete }}</td>
+                    {% else %}
+                        -1
+                    {% endif %}
 
-            <td><a href="{% url 'order_detail' order.id %}">{{ order.id }}</a></td>
-            <td>{{ order.time_created }}</td>
-            <td>{% if order.is_delivered %}Delivered{% else %}Pending{% endif %}</td>
-            <td>{{ order.employee.name }}</td>
-            <td>{{ order.get_num_items }}</td>
-            <td>{{ order.get_total_formatted }}</td>
-            <td>{% if order.is_paid %}Yes{% else %}No{% endif %}</td>
+                <td id="id_{{ order.id }}" class="id"><a href="{% url 'order_detail' order.id %}">{{ order.id }}</a></td>
+                <td id="time_{{ order.id }}" class="datetime">{{ order.time_created }}</td>
+                <td id="is_deliv_{{ order.id }}" class="is_deliv">
+                    {% if order.is_delivered %}
+                        Delivered
+                    {% else %}
+                        Pending
+                    {% endif %}
+                </td>
+                <td id="emp_name_{{ order.id }}" class="emp_name">{{ order.employee.name }}</td>
+                <td id="num_items_{{ order.id }}" class="num_items">{{ order.get_num_items }}</td>
+                <td id="total_{{ order.id }}" class="total">{{ order.get_total_formatted }}</td>
+                <td id="paid_{{ order.id }}" class="paid">{% if order.is_paid %}Yes{% else %}No{% endif %}</td>
 
-        </tr>
+            </tr>
 
-    {% endfor %}
-    </tbody>
+        {% endfor %}
+        </tbody>
     </table>
+{% endblock %}
+
+{% block js %}
+    <!-- moment.js for datetime formatting...just did this for testing. Are you still using it? -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    <script type="text/javascript">
+
+        /* gets all orders and figures out the frequency of each, incrementing the index of
+           an array. It returns this array for use in the highcharts graph */
+        function getTableOrderHours() {
+            var freq = new Array(24).fill(0);
+            console.log(freq);
+            var rows = document.getElementById('order-table-body').children;
+            console.log("number of rows: " + rows.length);
+            // loop through all tr elements and get the hidden field, which is the hour of the day
+            for (i=0; i<rows.length; i++) {
+                var hour = parseInt(rows[i].children[0].innerHTML);  // get the hour of the order
+                console.log(hour);
+                freq[hour] += 1;
+            }
+            return freq;
+        }
+
+        function getTableRowData(rowId) {
+            var row = document.getElementById('order_' + rowId);
+            data = {};
+            for (i=0; i<row.children.length; i++) {
+                console.log(row.children[i].innerHTML);
+            }
+        }
+
+        /* hightables.js function to create graph */
+        $( function () {
+            var orderFrequency = getTableOrderHours();
+            $('#chart').highcharts({
+                xAxis: {
+                    title: {
+                        text: "Time of day (24 hour format)"
+                    },
+                    categories: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+                },
+                series: [{
+                    name: "Number of Orders",
+                    data: orderFrequency
+                }],
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: 'Lifetime Order Frequency by Hour'
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    title: {
+                        text: 'Orders Taken'
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                            this.point.y + ' sold';
+                    }
+                }
+            });
+        });
+    </script>
+
 {% endblock %}
