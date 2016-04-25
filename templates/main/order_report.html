@@ -2,7 +2,8 @@
 {% block title %}Orders{% endblock %}
 {% block body2 %}
     <h1>Order Reports</h1>
-    <div id="chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="order-freq-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div id="emp-time-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     <table id="order-table"
            class="table highchart"
            data-graph-container-before="1"
@@ -26,6 +27,7 @@
 
             <tr id="order_{{ order.id }}">
                 <td style="display:none;" id="hour_{{ order.id }}" class="hour">{{ order.time_created|date:"H" }}</td>
+                <td style="display:none;" class="date">{{ order.time_created|date:"Y,m,d,H,i" }}</td>
                 <td style="display:none;" id="delta_{{ order.id }}" class="delta">
                     {% if order.get_time_to_complete %}
                         {{ order.get_time_to_complete }}</td>
@@ -63,13 +65,13 @@
            an array. It returns this array for use in the highcharts graph */
         function getTableOrderHours() {
             var freq = new Array(24).fill(0);
-            console.log(freq);
+            //console.log(freq);
             var rows = document.getElementById('order-table-body').children;
-            console.log("number of rows: " + rows.length);
+            //console.log("number of rows: " + rows.length);
             // loop through all tr elements and get the hidden field, which is the hour of the day
             for (i=0; i<rows.length; i++) {
                 var hour = parseInt(rows[i].children[0].innerHTML);  // get the hour of the order
-                console.log(hour);
+                //console.log(hour);
                 freq[hour] += 1;
             }
             return freq;
@@ -86,7 +88,7 @@
         /* hightables.js function to create graph */
         $( function () {
             var orderFrequency = getTableOrderHours();
-            $('#chart').highcharts({
+            $('#order-freq-chart').highcharts({
                 xAxis: {
                     title: {
                         text: "Time of day (24 hour format)"
@@ -94,11 +96,11 @@
                     categories: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
                 },
                 series: [{
-                    name: "Number of Orders",
+                    name: "Total Orders Taken",
                     data: orderFrequency
                 }],
                 chart: {
-                    type: 'line'
+                    type: 'column'
                 },
                 title: {
                     text: 'Lifetime Order Frequency by Hour'
@@ -111,11 +113,94 @@
                 },
                 tooltip: {
                     formatter: function () {
-                        return '<b>' + this.series.name + '</b><br/>' +
-                            this.point.y + ' sold';
+                        return this.point.y + ' orders';
                     }
                 }
             });
+        });
+
+        /* get all of the dates and total time of orders by a specific employee */
+        function getEmpOrderDateTimeInfo(emp_name) {
+            console.log(emp_name);
+            var dateAndTimeInfo = [];
+            var rows = document.getElementById('order-table-body').children;
+            for (i=0; i<rows.length; i++) {
+                var emp = rows[i].getElementsByClassName("emp_name")[0].innerHTML;
+                if (emp_name === emp) {
+                    var date = rows[i].getElementsByClassName('date')[0].innerHTML;  // get datetime of order
+                    var delta = rows[i].getElementsByClassName('delta')[0].innerHTML;  // get minutes of order
+                    if (delta == -1) {
+                        continue; // the order was never completed, so we can't track the time. Skip it.
+                    }
+                    delta = parseInt($.trim(delta));
+                    var mins = parseInt(delta) / 60;
+                    console.log(emp + ": date: " + date + " mins: " + mins);
+                    date = date.split(',');
+                    var jsDate = Date.UTC(parseInt(date[0]),
+                                          parseInt(date[1])-1,
+                                          parseInt(date[2]),
+                                          parseInt(date[3]),
+                                          parseInt(date[4]));
+                    console.log(jsDate);
+                    dateAndTimeInfo.push([jsDate, mins]);
+                }
+            }
+            return dateAndTimeInfo;
+        }
+
+
+        /* hightables.js function to create "length of time to create drinks for each employee" graph */
+        $( function () {
+            var options = {
+                chart: {
+                    renderTo: 'emp-time-chart',
+                    type: 'line'
+                },
+                title: {
+                    text: 'Lifetime Order Completion Time by Employee'
+                },
+                xAxis: {
+                    type: 'datetime',
+                    dateTimeLabelFormats: {
+                        month: '%b %e',
+                        year: '%b'
+                    },
+                    title: {
+                        text: 'Date'
+                    }
+                },
+                yAxis: {
+                    allowDecimals: true,
+                    title: {
+                        text: 'Time (minutes)'
+                    },
+                    min: 0
+                },
+                plotOptions: {
+                    spline: {
+                        marker: {
+                            enabled: true
+                        }
+                    }
+                },
+
+                series: [],
+                tooltip: {
+                    headerFormat: '<b>{series.name}</b><br>',
+                    pointFormat: '{point.x:%b %e}: {point.y:.2f} mins'
+                }
+            };
+            //console.log({{ employees|safe }});
+            //console.log("{{ orders.0.time_created|date:'m d Y' }}");
+            for (let name of {{ employees|safe }}) {
+                var series = {};
+                var info = getEmpOrderDateTimeInfo(name);
+                console.log(info);
+                series.name = name;
+                series.data = info;
+                options.series.push(series);
+            }
+            var chart = new Highcharts.Chart(options);
         });
     </script>
 
