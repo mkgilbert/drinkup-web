@@ -190,8 +190,6 @@
                     pointFormat: '{point.x:%b %e}: {point.y:.2f} mins'
                 }
             };
-            //console.log({{ employees|safe }});
-            //console.log("{{ orders.0.time_created|date:'m d Y' }}");
             for (let name of {{ employees|safe }}) {
                 var series = {};
                 var info = getEmpOrderDateTimeInfo(name);

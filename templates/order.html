@@ -3,6 +3,21 @@
 {% block body %}
     <h1>Order {{ order.id }}</h1>
     <p>Total: {{ order.get_total_formatted }}</p>
-    <p>Customer: {{ order.customer.name }}</p>
+    <p>Customer: <b>{{ order.customer.name }}</b>
+        {% if customer.at_table %}
+            Table
+        {% else %}
+            Wristband
+        {% endif %}# {{ order.customer.number }}</p>
+    <h3>Drinks:</h3>
+
+    {% for link in order.get_item_links %}
+        <h4>{{ link.item.name }}</h4>
+        <ul>
+        <li>{{ link.status }}</li>
+        <li>{{ link.quantity }}</li>
+        <li>{{ link.format }}</li>
+        </ul>
+    {% endfor %}
 
 {% endblock %}
