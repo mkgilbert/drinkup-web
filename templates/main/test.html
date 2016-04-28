@@ -131,7 +131,7 @@ function shiftRight(){
 }
 
 function getTimeDifference(dateInput){
-    var dateNow = new Date(); 
+    var dateNow = new Date();
     
     var dateOrder = new Date(dateInput.substring(0, 4), dateInput.substring(5, 7)-1,
                              dateInput.substring(8, 10), dateInput.substring(11, 13),
@@ -220,9 +220,12 @@ $.ajax({
     success: function(data)
     {
         var orders = ""; 
+        var ordertolist = "";
         var orderdetails = "";
+        var ordertodetail = "";
         var i;
         var j;
+        var complete;
 
         elementarray = [];
         
@@ -230,6 +233,11 @@ $.ajax({
             orderdetails += "\n\t<div class=\"item active\" id=\"slideInfo\"><center><h2>Select an order to begin.</h2></center></div>";
         }
         for (i = 0; i < data.length; i++) {
+            complete = 0;
+            j = 0;
+            orders = "";
+            orderdetails = "";
+
             elementarray.push(data[i].id);
             orders += "<li";
             orderdetails += "\n\t\t<div class=\"item";
@@ -266,6 +274,7 @@ $.ajax({
                         var rowcolor = " class=\"success\"";  
                         var compbutton = "disabled";
                         var compbuttontext = "Completed";
+                        complete += 1;
                     }        
                     orderdetails += "<tr" + rowcolor + "><td>" + (j+1) + "</td><td>" + data[i].items[j].name + "</td><td>" + data[i].items[j].quantity 
                                     + "</td><td><strong class=\"text-capitalize\">" + data[i].items[j].status +  "</strong></td><td>"
@@ -279,11 +288,18 @@ $.ajax({
                 orderdetails += "<p>There are no items in this order.</p>";
                 orderdetails += "<center><button type=\"button\" class=\"btn btn-success btn-lg disabled\">Complete All</button></center>";
             }
-
             orderdetails += "</div>";
+
+            if(complete == j && j != 0){
+                console.log("This order, " + data[i].id + " is complete.");
+            } else{
+            ordertolist += orders;
+            ordertodetail += orderdetails;
+            }
+
         }
-        document.getElementById("demo").innerHTML = orders;
-        document.getElementById("carouselitem").innerHTML = orderdetails;
+        document.getElementById("demo").innerHTML = ordertolist;
+        document.getElementById("carouselitem").innerHTML = ordertodetail;
 
         console.log(data);
         console.log(elementarray);
