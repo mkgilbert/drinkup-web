@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from main.models import Venue, Employee
 from django.contrib.auth.models import User
 from main.forms import AddEmployeeForm
@@ -39,3 +40,33 @@ def edit(request, venue_id, employee_id):
     else:
         return HttpResponseRedirect('/user/home/' + str(employee.venue.id) + '/employee/' + str(employee.id) + '/edit-employee/')
     return render(request, 'main/employee_edit.html', {'form': form, "venue": venue})
+
+
+@login_required()
+def login(request, venue_id):
+    venue = Venue.objects.get(pk=venue_id)
+    employees = Employee.objects.filter(venue=venue)
+    if request.method == 'POST':
+        form = AddEmployeeForm(request.POST)
+        if form.is_valid():
+            new_item = form.save(commit=False)
+            emp_name = new_item.name
+            emp_pin = new_item.pin
+            try:
+                employee = Employee.objects.get(name=emp_name)
+            except ObjectDoesNotExist:
+                employee = 0
+            if(employee and employee.pin == new_item.pin):
+                return HttpResponseRedirect('/user/home/test/' + str(employee.id) + '/' + str(employee.venue.id))
+            elif (employee == 0):
+                messages.error(request, "Employee not found.")
+                return render(request, 'main/employee_login.html', {'form': form, "venue": venue})
+            else:
+                messages.error(request, "Incorrect pin.")
+                return render(request, 'main/employee_login.html', {'form': form, "venue": venue})
+                
+    elif request.method == 'GET':
+        form = AddEmployeeForm()
+    else:
+        return HttpResponseRedirect('/user/home/' + str(employee.venue.id) + '/employee-login/')
+    return render(request, 'main/employee_login.html', {'form': form, "venue": venue})
