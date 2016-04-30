@@ -1,11 +1,29 @@
 {% extends "reports_base.html" %}
 {% block title %}Orders{% endblock %}
 {% block body2 %}
-    <h1>Order Reports</h1>
-    <div id="order-freq-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-    <div id="emp-time-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3"><h1>Order Reports</h1></div>
+            <div class="col-lg-6" >
+                <form class="form-inline" style="display: table-cell; vertical-align: bottom;">
+                <label>Choose a chart to display: </label>
+                    <select class="div-toggle c-select" data-target=".chart">
+                    <option value="frequency" data-show=".frequency">Order Frequency</option>
+                    <option value="time" data-show=".time">Time by Employee</option>
+                </select>
+                </form>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 chart">
+                    <div class="frequency hide" id="order-freq-chart" style="width: 80%;"></div>
+                    <div class="time hide" id="emp-time-chart" style="width: 80%;"></div>
+            </div>
+        </div>
+    </div>
     <table id="order-table"
-           class="table highchart"
+           class="table"
            data-graph-container-before="1"
            data-graph-type="line"
            data-graph-datalabels-enabled="1"
@@ -60,6 +78,18 @@
 
     <!-- moment.js for datetime formatting...just did this for testing. Are you still using it? -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('select.div-toggle').change(function () {
+                var target = $(this).data('target');
+                $(target).children().addClass('hide');
+                var show = $("option:selected", this).data('show');
+                $(show).removeClass('hide');
+            });
+        });
+    </script>
+
     <script type="text/javascript">
 
         /* gets all orders and figures out the frequency of each, incrementing the index of
