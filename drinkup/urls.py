@@ -18,13 +18,15 @@ urlpatterns = [
 
     url(r'^user/home/$', home, name='home'),
 
-    url(r'^user/home/test/(?P<venue_id>\d+)/$', test.display, name='test'),
+    url(r'^user/home/test/(?P<employee_id>\d+)/(?P<venue_id>\d+)/$', test.display, name='test'),
 
     url(r'^user/home/edit-user/$', user_session.user_edit, name='user_edit'),
 
     url(r'user/add-venue/$', venue.add, name='venue_add'),
 
     url(r'^user/home/(?P<venue_id>\d+)/add-employee/$', employee.add, name='employee_add'),
+
+    url(r'^user/home/(?P<venue_id>\d+)/employee-login/$', employee.login, name='employee_login'),
 
     url(r'^user/home/(?P<venue_id>\d+)/employee/(?P<employee_id>\d+)/edit-employee/$', employee.edit, name='employee_edit'),
 
