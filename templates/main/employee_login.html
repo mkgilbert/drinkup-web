@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body %}
+    <h1>Employee Login</h1>
+    {% if messages %}
+        <div>
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        </div>
+    {% endif %}
+
+    <form action="{{ next }}" method="post">
+        <div>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success" aria-label="Left Align">
+        Log In
+        </button>
+        </div>
+    </form>
+{% endblock %}
