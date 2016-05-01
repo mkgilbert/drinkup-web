@@ -2,4 +2,20 @@
 {% block title %}Reports{% endblock %}
 {% block body2 %}
     <h2>Summary</h2>
+    <div class="row-fluid">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+            <ul class="list-group-item-heading" style="font-size: large;">
+                <li class="list-group-item">Customers served
+                    <span class="badge" style="font-size: large;">{{ customers|length }}</span></li>
+                <li class="list-group-item" >Drinks sold
+                    <span class="badge" style="font-size: large;">{{ total_sold }}</span></li>
+                <li class="list-group-item">Days in service
+                    <span class="badge" style="font-size: large;">{{ time_in_biz }}</span></li>
+                <li class="list-group-item">Lowest Order Time
+                    <span class="badge" style="font-size: large;">{{ time }}</span></li>
+            </ul>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
 {% endblock %}

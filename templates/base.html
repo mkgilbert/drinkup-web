@@ -36,6 +36,7 @@
 
 <body {% block bodyattributes %}{% endblock %}>
 <!-- Fixed navbar -->
+<div class="container">
 <nav class="navbar navbar-default navbar-{% block navtype %}fixed{% endblock %}-top" id="navbar">
     <div class="container">
         <div class="navbar-header">
@@ -88,28 +89,26 @@
     </div>
 </nav>
 
-<div class="container">
-    {% if messages %}
-      <div class="alert alert-success" role="alert">
-          <ul>
-          {% for message in messages %}
-              <li>{{ message }}</li>
-          {% endfor %}
-          </ul>
-      </div>
+    <div class="container">
+        {% if messages %}
+          <div class="alert alert-success" role="alert">
+              <ul>
+              {% for message in messages %}
+                  <li>{{ message }}</li>
+              {% endfor %}
+              </ul>
+          </div>
+        {% endif %}
+
+        {% block body %}{% endblock %}
+        {% block body2 %}{% endblock %}
+    </div>
+    <!--Get the name of the current view and set that nav element to be highlighted-->
+    {% if view_name %}
+        <script>document.getElementById("{{ view_name }}").className = 'active';</script>
     {% endif %}
 
-    {% block body %}{% endblock %}
-    {% block body2 %}{% endblock %}
-
-<!--Get the name of the current view and set that nav element to be highlighted-->
-{% if view_name %}
-    <script>document.getElementById("{{ view_name }}").className = 'active';</script>
-{% endif %}
-
+</div>
 </body>
-
-{% block js %}
-
-{% endblock %}
+{% block js %}{% endblock %}
 </html>

@@ -1,27 +1,26 @@
 {% extends "reports_base.html" %}
 {% block title %}Orders{% endblock %}
 {% block body2 %}
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3"><h1>Order Reports</h1></div>
-            <div class="col-lg-6" >
+
+        <div class="row-fluid">
+            <div class="span3"><h1>Order Reports</h1></div>
+            <div class="span6" >
                 <form class="form-inline" style="display: table-cell; vertical-align: bottom;">
-                <label>Choose a chart to display: </label>
+                    <label>Choose a chart to display: </label>
                     <select class="div-toggle c-select" data-target=".chart">
-                    <option value="frequency" data-show=".frequency">Order Frequency</option>
-                    <option value="time" data-show=".time">Time by Employee</option>
-                </select>
+                        <option id="default" value="frequency" data-show=".frequency">Order Frequency</option>
+                        <option value="time" data-show=".time">Time by Employee</option>
+                    </select>
                 </form>
             </div>
-            <div class="col-lg-3"></div>
+            <div class="span3"></div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 chart">
-                    <div class="frequency hide" id="order-freq-chart" style="width: 80%;"></div>
-                    <div class="time hide" id="emp-time-chart" style="width: 80%;"></div>
+        <div class="row-fluid">
+            <div class="span12 chart">
+                    <div class="span12 frequency hide" id="order-freq-chart" style="width: 80%;"></div>
+                    <div class="span12 time" id="emp-time-chart"></div>
             </div>
         </div>
-    </div>
     <table id="order-table"
            class="table"
            data-graph-container-before="1"
@@ -87,6 +86,7 @@
                 var show = $("option:selected", this).data('show');
                 $(show).removeClass('hide');
             });
+            $('select.div-toggle').prop('selectedIndex', 1);
         });
     </script>
 
@@ -196,7 +196,7 @@
                         text: 'Order Completion Times by Employee'
                     },
                     yAxis: {
-
+                        opposite: false,
                         plotLines: [{
                             value: 0,
                             width: 2,
@@ -205,7 +205,7 @@
                     },
                     plotOptions: {
                         series: {
-                            compare: 'percent'
+                            compare: 'value'
                         }
                     },
                     series: seriesOptions,
@@ -216,12 +216,11 @@
                 });
             }
             employees = {{ employees|safe }}; // just a list of all employees
-
-            for (let name of employees) {
+            for (var i in employees) {
                 var series = {};
-                var info = getEmpOrderDateTimeInfo(name);
+                var info = getEmpOrderDateTimeInfo(employees[i]);
                 console.log(info);
-                series.name = name;
+                series.name = employees[i];
                 series.data = info;
                 seriesOptions.push(series);
                 seriesCounter += 1;
