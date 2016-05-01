@@ -19,3 +19,15 @@ def complete_item(request, venue_id, item_id):
         itemgotten.save()
         return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def delete_item(request, venue_id, item_id):
+    try:
+        itemgotten = ItemOrderLink.objects.get(id=item_id)
+    except ItemOrderLink.DoesNotExist:
+        return Response({"invalid": "true"})
+
+    if request.method == 'GET':
+        itemgotten.delete()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
