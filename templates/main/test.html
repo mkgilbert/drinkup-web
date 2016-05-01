@@ -103,7 +103,7 @@ function shiftLeft(){
     }else{
         var checkvalue = getActiveElementPos();
         if(checkvalue == 0){
-            activeslide = elementarray[checkvalue+1];
+            activeslide = elementarray[elementarray.length-1];
             doOnce();
         }
         else{
@@ -198,18 +198,40 @@ function completeItem(itemno){
     setTimeout(function(){
         doOnce();
     }, 500);
+}
 
-    /*console.log("Attemping to complete item " + itemno);
+
+function deletePromiseItem(itemno){
+    var returnvalue = 0;
     $.ajax({
-        url : '/api/' + {{ venue.id }} + '/complete_item/' + itemno + '?format=json',
+        url : '/api/' + {{ venue.id }} + '/delete_item/' + itemno + '?format=json',
         dataType : 'json',
         type : 'GET',
-        success: function(data)
-        {
-            console.log("Item " + itemno + " completed.");
+        success: returnvalue = 1,
+    });
+    return returnvalue;
+}
+
+
+function deleteItem(itemno){
+    console.log("Attemping to complete item " + itemno);
+    var p1 = new Promise(function(resolve, reject) {
+        if(deletePromiseItem(itemno) == 1){
+            resolve("Item " + itemno + " deleted.");
+        } else{
+            reject("Item " + itemno + " could not be deleted.");
         }
     });
-    doOnce();*/
+
+    p1.then(function(value) {
+        console.log(value); // Success!
+    }, function(reason) {
+        console.log(reason); // Error!
+    });
+
+    setTimeout(function(){
+        doOnce();
+    }, 500);
 }
 
 function doOnce(){
@@ -230,7 +252,7 @@ $.ajax({
         elementarray = [];
         
         if(activeslide == -1){
-            orderdetails += "\n\t<div class=\"item active\" id=\"slideInfo\"><center><h2>Select an order to begin.</h2></center></div>";
+            ordertodetail += "\n\t<div class=\"item active\" id=\"slideInfo\"><center><h2>Select an order to begin.</h2></center></div>";
         }
         for (i = 0; i < data.length; i++) {
             complete = 0;
@@ -238,7 +260,6 @@ $.ajax({
             orders = "";
             orderdetails = "";
 
-            elementarray.push(data[i].id);
             orders += "<li";
             orderdetails += "\n\t\t<div class=\"item";
             if(data[i].id == activeslide){
@@ -270,15 +291,17 @@ $.ajax({
                         var rowcolor = " class=\"danger\"";
                         var compbutton = "";
                         var compbuttontext = "Complete";
+                        var delbutton = " <button type=\"button\" class=\"btn btn-danger " + compbutton + " btn-xs\" onclick=\"deleteItem("+ data[i].items[j].link_id + ")\">  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span></button>";
                     } else{
                         var rowcolor = " class=\"success\"";  
                         var compbutton = "disabled";
                         var compbuttontext = "Completed";
+                        var delbutton = "";
                         complete += 1;
                     }        
                     orderdetails += "<tr" + rowcolor + "><td>" + (j+1) + "</td><td>" + data[i].items[j].name + "</td><td>" + data[i].items[j].quantity 
                                     + "</td><td><strong class=\"text-capitalize\">" + data[i].items[j].status +  "</strong></td><td>"
-                                    + "<button type=\"button\" class=\"btn btn-success " + compbutton + " btn-xs\" onclick=\"completeItem("+ data[i].items[j].link_id + ")\">" + compbuttontext + "</button></tr>";
+                                    + "<button type=\"button\" class=\"btn btn-success " + compbutton + " btn-xs\" onclick=\"completeItem("+ data[i].items[j].link_id + ")\">" + compbuttontext + "</button>" + delbutton + "</tr>";
                 }
                 orderdetails += "\t\t</tbody>\n\t</table>\n</div>";
 
@@ -293,8 +316,9 @@ $.ajax({
             if(complete == j && j != 0){
                 console.log("This order, " + data[i].id + " is complete.");
             } else{
-            ordertolist += orders;
-            ordertodetail += orderdetails;
+                ordertolist += orders;
+                ordertodetail += orderdetails;
+                elementarray.push(data[i].id);
             }
 
         }
