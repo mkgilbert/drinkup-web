@@ -2,7 +2,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
-from main.views import (home, user_session, index, registration, venue, menu, item, employee, order, test, unclaimed)
+from main.views import (home, user_session, index, registration, venue, menu, item, employee, order, bartinterface, unclaimed)
 from main.views.reports import summary
 
 urlpatterns = [
@@ -18,7 +18,7 @@ urlpatterns = [
 
     url(r'^user/home/$', home, name='home'),
 
-    url(r'^user/home/test/(?P<employee_id>\d+)/(?P<venue_id>\d+)/$', test.display, name='test'),
+    url(r'^user/home/bartui/(?P<employee_id>\d+)/(?P<venue_id>\d+)/$', bartinterface.display, name='bartui'),
 
     url(r'^user/home/edit-user/$', user_session.user_edit, name='user_edit'),
 

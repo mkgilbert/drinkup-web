@@ -57,7 +57,7 @@ def login(request, venue_id):
             except ObjectDoesNotExist:
                 employee = 0
             if(employee and employee.pin == new_item.pin):
-                return HttpResponseRedirect('/user/home/test/' + str(employee.id) + '/' + str(employee.venue.id))
+                return HttpResponseRedirect('/user/home/bartui/' + str(employee.id) + '/' + str(employee.venue.id))
             elif (employee == 0):
                 messages.error(request, "Employee not found.")
                 return render(request, 'main/employee_login.html', {'form': form, "venue": venue})

@@ -9,4 +9,4 @@ def display(request, venue_id, employee_id):
     venue = Venue.objects.get(id=venue_id)
     items = Item.objects.all()
     employee = Employee.objects.get(id=employee_id)
-    return render(request, "main/test.html", {'venue': venue, 'items': items, 'employee': employee})
+    return render(request, "main/bartinterface.html", {'venue': venue, 'items': items, 'employee': employee})
