@@ -74,24 +74,23 @@ def order(request, venue_id, cust_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'POST':
-        print("venue: " + str(venue_id))
-        print("customer: " + str(cust_id))
         try:
             venue = Venue.objects.get(pk=venue_id)
-            print(venue)
+            print("venue: " + str(venue))
             customer = Customer.objects.get(pk=cust_id)
-            print(customer)
+            print("customer: " + str(customer))
         except Venue.DoesNotExist or Customer.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         order = Order.objects.create(venue=venue, customer=customer)
-
+        print("order was successfully created...")
         serializer = CreateOrderElement(data=request.data, many=True, order=order)
         print(serializer.initial_data)
         if serializer.is_valid():
             print(serializer.validated_data)
+            print("serializer was validated")
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.validated_data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors)
 
 @api_view(['GET'])
