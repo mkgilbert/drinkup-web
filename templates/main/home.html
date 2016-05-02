@@ -108,6 +108,7 @@
                                 Category
                             </th>
                             <th>Price</th>
+
                         </tr>
                             <tr>
                                  {% for item in items %}
@@ -122,6 +123,7 @@
                                       {% if item.category == 'other' %}Other{% endif %}
                                 </td>
                                         <td>${{ cost|get_item:item.id }}</td>
+                                        <td> <a href="{% url 'item_edit' menu.id item.id %}">edit</a></td>
 
                             </tr>
                                      {% endif %}
