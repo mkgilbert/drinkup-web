@@ -17,7 +17,10 @@ class Employee(models.Model):
         seconds_sum = 0
         for order in orders:
             seconds_sum += order.get_time_to_complete
-        return seconds_sum / num_orders
+        if seconds_sum > 0:
+            return seconds_sum / num_orders
+        else:
+            return 0
 
     def __str__(self):
         if self.name == "":
