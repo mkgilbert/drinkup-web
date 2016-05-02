@@ -54,11 +54,10 @@ setInterval(function() {
     doOnce();
 
 }, 5000);
+
 </script>
     {% if items %}
         <h4>Here are your menu items:</h4>
-
-
         <div class="panel panel-default" id="demo">
         Loading...</div>
 
@@ -77,4 +76,18 @@ setInterval(function() {
             </button>
         </div>
     </form>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+    $(function () {
+        // check if user wants to delete after clicking button
+        $('button.delete').click(function() {
+            var result = confirm("Are you sure?");
+            if (result) {
+                alert("Deleted!");
+            }
+        });
+    });
+    </script>
 {% endblock %}

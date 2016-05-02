@@ -8,6 +8,7 @@
         <tr>
             <th>Name</th>
             <th>Total Orders Delivered</th>
+            <th>Avg Order Completion Time</th>
         </tr>
     </thead>
     <tbody>
@@ -15,6 +16,7 @@
         <tr>
             <td>{{ emp.name }}</td>
             <td>{{ emp.orders.all|length }}</td>
+            <td>2.12</td>
         </tr>
     {% endfor %}
     </tbody>
