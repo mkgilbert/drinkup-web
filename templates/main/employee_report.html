@@ -16,7 +16,7 @@
         <tr>
             <td>{{ emp.name }}</td>
             <td>{{ emp.orders.all|length }}</td>
-            <td>2.12</td>
+            <td>{{ emp.get_avg_order_time }} secs</td>
         </tr>
     {% endfor %}
     </tbody>

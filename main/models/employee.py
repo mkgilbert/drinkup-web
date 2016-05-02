@@ -11,6 +11,14 @@ class Employee(models.Model):
     pin = models.CharField(max_length=4, validators=[pin_regex], null=False, blank=False)
     name = models.CharField(max_length=25, default="")
 
+    def get_avg_order_time(self):
+        orders = self.orders.all()
+        num_orders = len(orders)
+        seconds_sum = 0
+        for order in orders:
+            seconds_sum += order.get_time_to_complete
+        return seconds_sum / num_orders
+
     def __str__(self):
         if self.name == "":
             return str(self.pin)
