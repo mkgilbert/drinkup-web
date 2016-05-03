@@ -15,3 +15,5 @@ class ItemOrderLink(models.Model):
     def format(self):
         return "$" + "{:,.2f}".format(self.item_order_price * self.quantity / 100.0)
 
+    def __str__(self):
+        return str(self.item_id) + ": " + self.item.name

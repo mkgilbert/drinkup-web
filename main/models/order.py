@@ -75,3 +75,12 @@ class Order(models.Model):
             link.save()
         self.time_completed = datetime.now()
         self.save()
+
+    def __str__(self):
+        items = ""
+        for link in self.get_item_links():
+            items += "%s, " %(link.item.name)
+        items = items.strip(", ")
+        if items:
+            return self.venue.name + ": " + items
+        return self.venue.name + ": " + "no items"

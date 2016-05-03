@@ -23,3 +23,6 @@ class Venue(models.Model):
     hours = models.CharField(max_length=255, null=True, blank=True)
     service_type = models.CharField(max_length=25, choices=SERVICE_TYPES)
     drinks_sold = models.IntegerField(default=0)
+
+    def __str__(self):
+         return self.name

@@ -6,6 +6,9 @@ class Menu(models.Model):
     name = models.CharField(max_length=25, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return self.venue.name + ": " + self.name
+
 class Item(models.Model):
     CATEGORIES = (
         ('beer', 'Beer'),
@@ -19,4 +22,7 @@ class Item(models.Model):
     category = models.CharField(max_length=25, choices=CATEGORIES)
     name = models.CharField(max_length=255)
     price = models.IntegerField()
+
+    def __str__(self):
+        return self.name
 
