@@ -35,7 +35,7 @@
                                       {% if item.category == 'soft' %}Soft Drink{% endif %}
                                       {% if item.category == 'other' %}Other{% endif %}
                                 </td>
-                                        <td>${{ item.price }}</td>
+                                        <td>{{ item.get_price_formatted }}</td>
 
                             </tr>
                                      {% endif %}

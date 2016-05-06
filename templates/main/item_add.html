@@ -38,6 +38,7 @@ $.ajax({
                 } else {
                     var category = "Other";
                 }
+                items[i].price /= 100;
                 text += "<td>" + category + "</td><td>$" + items[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + "</td></tr>";
             }                                              /* number formatting function by VisioN of stackoverflow http://stackoverflow.com/a/14428340 */
             text += "</table>";
