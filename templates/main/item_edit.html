@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
     <h1>Edit an item</h1>
+    <div class="col-lg-1">
     <form action="{{ next }}" method="post">
         <div>
             {% csrf_token %}
@@ -11,4 +12,5 @@
             </button>
         </div>
     </form>
+    </div>
 {% endblock %}

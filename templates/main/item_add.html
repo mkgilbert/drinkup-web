@@ -101,6 +101,7 @@ function deleteItem(item_id) {
     {% endif %}
 
     <h1>Add an item</h1>
+    <div class="col-lg-1">
     <form action="{{ next }}" method="post">
         <div>
             {% csrf_token %}
@@ -111,4 +112,5 @@ function deleteItem(item_id) {
             </button>
         </div>
     </form>
+    </div>
 {% endblock %}
