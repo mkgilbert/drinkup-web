@@ -347,7 +347,7 @@ setInterval(function() {
     <div class="container-fluid" onload="doOnce()">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <p><center><button type="button" class="btn btn-primary" onclick="doOnce()">Load Now</button></center></p>
+          <p><center><button type="button" class="btn btn-primary" onclick="doOnce()">Load Orders Now</button></center></p>
           <ul class="nav nav-sidebar" id="demo">
             <li>Loading...</li>
           </ul>
@@ -355,7 +355,7 @@ setInterval(function() {
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Order Details
               <a href="{% url 'unclaimed' venue.id %}">
-                  <button class="pull-right btn btn-primary">Undelivered Orders</button>
+                  <button class="pull-right btn btn-primary" style="font-size: large;">Undelivered Orders</button>
               </a>
           </h1>
           <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
