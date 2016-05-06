@@ -122,7 +122,7 @@
                                       {% if item.category == 'soft' %}Soft Drink{% endif %}
                                       {% if item.category == 'other' %}Other{% endif %}
                                 </td>
-                                        <td>${{ cost|get_item:item.id }}</td>
+                                        <td>{{ item.get_price_formatted }}</td>
                                         <td> <a href="{% url 'item_edit' menu.id item.id %}">edit</a></td>
 
                             </tr>

@@ -23,6 +23,10 @@ class Item(models.Model):
     name = models.CharField(max_length=255)
     price = models.IntegerField()
 
+    @property
+    def get_price_formatted(self):
+        return "$" + "{:,.2f}".format(self.price / 100.0)
+
     def __str__(self):
         return self.name
 
