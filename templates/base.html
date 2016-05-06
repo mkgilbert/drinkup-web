@@ -80,13 +80,11 @@
 
     <div class="container">
         {% if messages %}
-          <div class="alert alert-success" role="alert">
-              <ul>
-              {% for message in messages %}
-                  <li>{{ message }}</li>
-              {% endfor %}
-              </ul>
-          </div>
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
         {% endif %}
 
         {% block body %}{% endblock %}
