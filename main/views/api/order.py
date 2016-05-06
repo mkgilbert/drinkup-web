@@ -27,9 +27,12 @@ def order(request, venue_id, cust_id):
     Get or create a new order
     """
     if request.method == 'GET':
+        # the case where the web app is trying to populate the entire bar interface page
+        # just chose to use "0" because it's a non-existent customer id
         if cust_id == "0":
             venue = Venue.objects.get(pk=venue_id)
-            orders = venue.orders.all()
+            # only get orders that have items in them
+            orders = venue.orders.filter(items__isnull=False)
         else:
             try:
                 customer = Customer.objects.get(pk=cust_id)
