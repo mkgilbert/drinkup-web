@@ -16,7 +16,7 @@
         <tr>
             <td>{{ emp.name }}</td>
             <td>{{ emp.orders.all|length }}</td>
-            <td>{{ emp.get_avg_order_time }} secs</td>
+            <td>{{ emp.get_avg_order_time }}</td>
         </tr>
     {% endfor %}
     </tbody>
@@ -24,7 +24,6 @@
 {% endblock %}
 
 {% block js %}
-    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script type="text/javascript">
         $( function () {
             $('#chart').highcharts({

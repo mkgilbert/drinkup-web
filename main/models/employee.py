@@ -16,9 +16,11 @@ class Employee(models.Model):
         num_orders = len(orders)
         seconds_sum = 0
         for order in orders:
-            seconds_sum += order.get_time_to_complete
+            secs = order.get_time_to_complete
+            if secs is not None:
+                seconds_sum += order.get_time_to_complete
         if seconds_sum > 0:
-            return seconds_sum / num_orders
+            return int(seconds_sum / num_orders)
         else:
             return 0
 
