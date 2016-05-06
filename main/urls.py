@@ -38,4 +38,6 @@ urlpatterns = [
         name='api_complete_item'),
     url(r'^api/(?P<venue_id>\d+)/delete_item/(?P<item_id>\d+)/$', item.delete_item,
         name='api_delete_item'),
+    url(r'^api/(?P<venue_id>\d+)/order/(?P<cust_id>\d+)/pay$', order.pay,
+        name='api_pay'),
 ]

@@ -104,3 +104,26 @@ def complete_order(request, venue_id, order_id):
         order.complete_all_items()
         return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def pay(request, venue_id, cust_id):
+    result = {}
+    if request.data['pay'] is not None:
+        if request.data['pay'] == True:
+            try:
+                customer = Customer.objects.get(pk=cust_id)
+                print("pay all for customer " + customer.name)
+                orders = customer.orders.all()
+                if orders is not None:
+                    for order in orders:
+                        order.is_paid = True
+                        order.save()
+                result["status"] = "paid all"
+            except Customer.DoesNotExist:
+                result['invalid'] = "true"
+                return Response(result, status=status.HTTP_400_BAD_REQUEST)
+
+            return Response(result, status=status.HTTP_200_OK)
+        else:
+            return Response({"invalid": "true"})
+    return Response()
