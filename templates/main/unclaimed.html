@@ -2,31 +2,46 @@
 {% block head %}
 {% endblock %}
 {% block body %}
-     <h1>{{ venue.name }} Undelivered Orders</h1>
+     <h1>{{ venue.name }} Undelivered Orders
+         <a href="{% url 'employee_login' venue.id %}">
+             <button class="pull-right btn btn-primary" style="font-size: large;">Back to Bartender Interface</button></a></h1>
 {% if orders %}
     <ul>
     {% for order in orders %}
             <div class="panel panel-default">
             <div class="panel-heading"><h3> Order Number: {{ order.id }}</h3></div>
             <ul class="list-group">
-                <li class="list-group-item"><h3>{{ order.customer }}</h3></li>
-                <form class="form" action="">
-                    <li class="list-group-item"<label>Employee delivering order: </label>
-                        <select>
+                <li class="list-group-item">
+                    <h3>Customer Info:</h3>
+                    <h4><strong>Name: </strong>{{ order.customer.name }}</h4>
+                    <h4><strong>
+                    {% if order.customer.at_table %}
+                        Table #:
+                    {% else %}
+                        Wristband #:
+                    {% endif %}
+                    </strong>
+                    {{ order.customer.number }}</h4>
+                </li>
+                <form class="form form-inline" action="">
+                    <li class="list-group-item"><label>Employee delivering order: </label>
+                        <select class="form-control" style="font-size: large; margin-right: 30px; margin-bottom: 10px;">
                             {% for emp in employees %}
                                 <option value="{{ emp.id }}">{{ emp.name }}</option>
                             {% endfor %}
                         </select>
                         <input name="order_id" type="hidden" value="{{ order.id }}" />
                         <input name="cust_id" type="hidden" value="{{ order.customer.id }}" />
-                        <button class="btn btn-lg" type="submit">Deliver</button>
+                        <button class="btn btn-lg" style="margin-bottom: 10px;" type="submit">Deliver</button>
                     </li>
                 </form>
             </ul>
             </div>
     {% endfor %}
     </ul>
-    {% endif %}
+ {% else %}
+    <div style="margin-top: 30px;"><center><h4>There are no orders to deliver at the moment</h4></center></div>
+ {% endif %}
 {% endblock %}
 {% block js %}
 
