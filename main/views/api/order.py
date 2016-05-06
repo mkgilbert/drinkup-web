@@ -32,7 +32,8 @@ def order(request, venue_id, cust_id):
         if cust_id == "0":
             venue = Venue.objects.get(pk=venue_id)
             # only get orders that have items in them
-            orders = venue.orders.filter(items__isnull=False)
+            #orders = venue.orders.filter(items__isnull=False)
+            orders = venue.orders.all()
         else:
             try:
                 customer = Customer.objects.get(pk=cust_id)
