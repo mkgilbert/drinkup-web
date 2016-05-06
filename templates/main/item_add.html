@@ -40,8 +40,12 @@ $.ajax({
                 }
                 items[i].price /= 100;
                 text += "<td>" + items[i].name + "</td>" + "<td>" + category + "</td>";
-                text += "<td>$" + items[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + "<td>" + "<a href=\"edit-item/" + items[i].id + "\">edit</a></td></tr>";
-            }                                              /* number formatting function by VisioN of stackoverflow http://stackoverflow.com/a/14428340 */
+                /* number formatting function by VisioN of stackoverflow http://stackoverflow.com/a/14428340 */
+                text += "<td>$" + items[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + "<td>";
+                text += "<a href=\"edit-item/" + items[i].id + "\">edit</a>";
+                text += "<button type=\"button\" class=\"pull-right btn btn-danger btn-xs \"";
+                text += "onclick=\"deleteItem("+ items[i].id + ")\">  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span></button></td></tr>";
+            }
             text += "</table>";
         }
         document.getElementById("demo").innerHTML = text;
@@ -57,7 +61,36 @@ setInterval(function() {
 
 }, 5000);
 
+function deleteItem(item_id) {
+    var confirmed = confirm("Are you sure you want to delete this drink?");
+    var html = "";
+    var classes = "";
+    var messageDiv = document.getElementById('messages');
+    document.getElementById('django-messages').style = "display: none;";
+
+    if (confirmed) {
+        $.ajax({
+            url: '/api/' + {{venue.id}} + '/menu/remove_item/' + item_id,
+            type: 'GET',
+            success: function()
+            {
+                messageDiv.innerHTML = "Item successfully deleted";
+                messageDiv.className = "alert alert-success";
+                console.log("deleted item " + item_id);
+                doOnce();
+            },
+            error: function() {
+                messageDiv.innerHTML = "something went wrong when deleting the item";
+                messageDiv.className = "alert alert-danger";
+            }
+        });
+    }
+}
+
 </script>
+
+    <!------ Begin html content ---->
+    <div id="messages" role="alert"></div>
     {% if items %}
         <h4>Here are your menu items:</h4>
         <div class="panel panel-default" id="demo">
@@ -78,18 +111,4 @@ setInterval(function() {
             </button>
         </div>
     </form>
-{% endblock %}
-
-{% block js %}
-    <script type="text/javascript">
-    $(function () {
-        // check if user wants to delete after clicking button
-        $('button.delete').click(function() {
-            var result = confirm("Are you sure?");
-            if (result) {
-                alert("Deleted!");
-            }
-        });
-    });
-    </script>
 {% endblock %}
