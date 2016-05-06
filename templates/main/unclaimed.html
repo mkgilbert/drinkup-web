@@ -2,9 +2,11 @@
 {% block head %}
 {% endblock %}
 {% block body %}
-     <h1>{{ venue.name }} Undelivered Orders
+     <h1 class="page-header">Undelivered Orders
          <a href="{% url 'employee_login' venue.id %}">
-             <button class="pull-right btn btn-primary" style="font-size: large;">Back to Bartender Interface</button></a></h1>
+             <button class="pull-right btn btn-primary" style="font-size: large;">Back to Bartender Interface</button>
+         </a>
+     </h1>
 {% if orders %}
     <ul>
     {% for order in orders %}
