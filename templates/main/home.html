@@ -108,20 +108,21 @@
                                 Category
                             </th>
                             <th>Price</th>
+                            <th></th>
 
                         </tr>
                             <tr>
                                  {% for item in items %}
                                     {% if item.menu == menu %}
-                                <td> {{ item.name }}</td>
-                                <td>
-                                 {% if item.category == 'beer' %}Beer{% endif %}
-                                      {% if item.category == 'wine' %}Wine{% endif %}
-                                      {% if item.category == 'mixed' %}Mixed Drink{% endif %}
-                                      {% if item.category == 'liquor' %}Hard Liquor{% endif %}
-                                      {% if item.category == 'soft' %}Soft Drink{% endif %}
-                                      {% if item.category == 'other' %}Other{% endif %}
-                                </td>
+                                        <td> {{ item.name }}</td>
+                                        <td>
+                                            {% if item.category == 'beer' %}Beer{% endif %}
+                                            {% if item.category == 'wine' %}Wine{% endif %}
+                                            {% if item.category == 'mixed' %}Mixed Drink{% endif %}
+                                            {% if item.category == 'liquor' %}Hard Liquor{% endif %}
+                                            {% if item.category == 'soft' %}Soft Drink{% endif %}
+                                            {% if item.category == 'other' %}Other{% endif %}
+                                        </td>
                                         <td>{{ item.get_price_formatted }}</td>
                                         <td> <a href="{% url 'item_edit' menu.id item.id %}">edit</a></td>
 
