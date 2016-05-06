@@ -23,6 +23,11 @@
                         <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports
                     </button>
                  </a>
+                <a style="float: right; vertical-align: bottom;" href="{% url 'unclaimed' venue.id %}">
+                    <button type="button" class="btn btn-primary btn-lg" style="margin-right: 5px;">
+                        <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Undelivered Orders
+                    </button>
+                 </a>
                 <a style="float: right; vertical-align: bottom;" href="{{ venue.id }}/employee-login">
                     <button type="button" class="btn btn-primary btn-lg" style="margin-right: 5px;">
                         <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Bartender Interface
@@ -32,10 +37,10 @@
             </div>
             <div class="panel-body">
             <ul>
-                <h4 style="font-size: x-large">Hours: {{ venue.hours }}</h4>
-                <h4 style="font-size: x-large">Address: {{ venue.address }}</h4>
-                <h4 style="font-size: x-large">Phone: {{ venue.phone }}</h4>
-                <h4 style="font-size: x-large">Service Type: {{ venue.service_type }}</h4>
+                <h5><strong>Hours: </strong>{{ venue.hours }}</h5>
+                <h5><strong>Address: </strong>{{ venue.address }}</h5>
+                <h5><strong>Phone: </strong>{{ venue.phone }}</h5>
+                <h5><strong>Service Type: </strong>{{ venue.service_type }}</h5>
 
 
         <div class="panel-group" id="accordion">
