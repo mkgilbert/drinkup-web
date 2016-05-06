@@ -12,6 +12,9 @@ class Employee(models.Model):
     name = models.CharField(max_length=25, default="")
 
     def get_avg_order_time(self):
+        """
+        returns avg of all order times from stat to finish for an employee in minutes
+        """
         orders = self.orders.all()
         num_orders = len(orders)
         seconds_sum = 0
@@ -20,7 +23,9 @@ class Employee(models.Model):
             if secs is not None:
                 seconds_sum += order.get_time_to_complete
         if seconds_sum > 0:
-            return int(seconds_sum / num_orders)
+            avg_mins = (seconds_sum / num_orders)/60
+            return float("{0:.2f}".format(avg_mins))
+
         else:
             return 0
 
