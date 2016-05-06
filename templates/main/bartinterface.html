@@ -336,7 +336,8 @@ setInterval(function() {
     doOnce();
 }, 15000);
 </script>
-    <!-- begin main page content -->
+
+    <!---------- begin main page content ----------->
     <div class="container-fluid" onload="doOnce()">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
@@ -348,7 +349,7 @@ setInterval(function() {
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Order Details
               <a href="{% url 'unclaimed' venue.id %}">
-                  <button class="pull-right btn btn-primary">Unclaimed Orders</button>
+                  <button class="pull-right btn btn-primary">Undelivered Orders</button>
               </a>
           </h1>
           <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false" data-wrap="false">
