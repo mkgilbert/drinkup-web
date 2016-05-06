@@ -3,6 +3,7 @@
 {% block body %}
     <div class="jumbotron">
         <div class="container">
+            <center><img style="max-height: 500px; width: auto;" src="{% static 'img/drinkup_logo_large.png' %}" /></center>
             <h1>DrinkUP!</h1>
                 {% if user.is_authenticated %}
                     <h3>Visit your  <a href="{% url 'home' %}">home</a> page to view all your information or  <a href="/logout/">logout</a> if you're done</h3>
@@ -12,5 +13,5 @@
                 {% endif %}
         </div>
     </div>
-    <img src="{% static 'img/drinkup_logo.jpg' %}" />
+
 {% endblock %}
