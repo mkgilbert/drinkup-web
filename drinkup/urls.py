@@ -22,6 +22,8 @@ urlpatterns = [
 
     url(r'^user/home/edit-user/$', user_session.user_edit, name='user_edit'),
 
+    url(r'^user/home/delete/$', user_session.user_delete, name='user_delete'),
+
     url(r'user/add-venue/$', venue.add, name='venue_add'),
 
     url(r'^user/home/(?P<venue_id>\d+)/add-employee/$', employee.add, name='employee_add'),
