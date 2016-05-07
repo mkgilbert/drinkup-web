@@ -1,16 +1,17 @@
 {% extends "base.html" %}
+{% load bootstrap %}
 {% block body %}
     <h1>Edit an item</h1>
-    <div class="col-lg-1">
+    <div class="col-lg-7">
     <form action="{% url 'item_add' menu.id %}" method="post">
         <div>
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|bootstrap }}
            <button type="submit" class="btn btn-success" aria-label="Left Align">
             <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
             Save
             </button>
         </div>
     </form>
-    </div>
+        </div>
 {% endblock %}

@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block bodyattributes %}onload="doOnce()"{% endblock %}
 {% block body %}
+{% load bootstrap %}
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script type="text/javascript">
@@ -101,11 +102,11 @@ function deleteItem(item_id) {
     {% endif %}
 
     <h1>Add an item</h1>
-    <div class="col-lg-1">
+    <div class="col-lg-7">
     <form action="{{ next }}" method="post">
         <div>
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|bootstrap }}
              <button type="submit" class="btn btn-default" aria-label="Left Align">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             Add

@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block body %}
-
     <div>
     <h1 style="display: inline-block">Welcome, {{ user.username }}</h1>
     <a style="display: inline-block; padding-left: 1%" href="edit-user/"> edit</a>
@@ -41,16 +40,93 @@
                 <h5><strong>Address: </strong>{{ venue.address }}</h5>
                 <h5><strong>Phone: </strong>{{ venue.phone }}</h5>
                 <h5><strong>Service Type: </strong>{{ venue.service_type }}</h5>
+            </ul>
 
 
         <div class="panel-group" id="accordion">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          <a style="font-size:xx-large" data-toggle="collapse" data-parent="#accordion" href="#collapseemp{{ venue.id }}">Employees</a>
-        </h4>
-      </div>
-      <div id="collapseemp{{ venue.id }}" class="panel-collapse collapse in">
+            <div class="panel panel-default">
+                <div class="panel-heading" id="menu">
+                <h4 class="panel-title">
+                    <a style="font-size:xx-large" data-toggle="collapse" data-parent="#accordion" href="#collapsemenu{{ venue.id }}">
+                        <!-- <span  class="glyphicon glyphicon-collapse-up" aria-hidden="true"></span>-->
+                        Menus</a>
+                    <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
+                </h4>
+                </div>
+                <div id="collapsemenu{{ venue.id }}" class="panel-collapse collapse in">
+                    <div class="panel-body">
+
+                        {% for menu in menus %}
+                            {% if venue == menu.venue %}
+
+                            <div class="panel panel-default">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading"><h4>Menu: {{ menu.name }}</h4><small><a href="menu/{{ menu.id }}/add-item"> edit</a></small></div>
+                                    <div class="panel-body">
+                                        <p>{{ menu.description }}</p>
+                                    </div>
+                                    <!-- Table -->
+                                    <table class="table">
+                                        <tr>
+                                            <th>
+                                            Name
+                                            </th>
+                                            <th>
+                                            Category
+                                            </th>
+                                            <th>Price</th>
+                                            <th></th>
+
+                                        </tr>
+                                        <tr>
+                                            {% for item in items %}
+                                                {% if item.menu == menu %}
+                                                    <td> {{ item.name }}</td>
+                                                        <td>
+                                                        {% if item.category == 'beer' %}Beer{% endif %}
+                                                        {% if item.category == 'wine' %}Wine{% endif %}
+                                                        {% if item.category == 'mixed' %}Mixed Drink{% endif %}
+                                                        {% if item.category == 'liquor' %}Hard Liquor{% endif %}
+                                                        {% if item.category == 'soft' %}Soft Drink{% endif %}
+                                                        {% if item.category == 'other' %}Other{% endif %}
+                                                        </td>
+                                                        <td>{{ item.get_price_formatted }}</td>
+                                                        <td> <a href="{% url 'item_edit' menu.id item.id %}">
+                                                            <button type="button" class="btn btn-success" aria-label="Left Align">
+                                                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                                                edit
+                                                            </button>
+                                                            </a></td>
+                                                    </tr>
+                                                {% endif %}
+                                            {% endfor %}
+                                    </table>
+                            </div>
+
+
+                    <br>
+        {% endif %}
+    {% endfor %}
+        <a href="{% url 'menu_add' venue.id %}">
+            <button type="button" class="btn btn-success" aria-label="Left Align">
+             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Menu
+            </button>
+            </a>
+
+
+</div>
+        </ul>
+        </div>
+            <div class="panel panel-default">
+                    <div class="panel-heading" id="emps">
+                        <h4 class="panel-title">
+                            <a id="emps" style="font-size:xx-large" data-toggle="collapse" data-parent="#accordion" href="#collapseemp{{ venue.id }}">
+                                <!--<span class="glyphicon glyphicon-collapse-down" aria-hidden="true"></span>-->
+                                Employees</a>
+                            </a><i class="indicator glyphicon glyphicon-chevron-up pull-right"></i>
+                        </h4>
+                    </div>
+                <div id="collapseemp{{ venue.id }}" class="panel-collapse collapse">
         <div class="panel-body">
 
 
@@ -64,12 +140,20 @@
                             <th>
                                 Pin
                             </th>
+            <th></th>
                         </tr>
           <tr>
           {% for employee in employees %}
             {% if venue == employee.venue %}
-              <td>{{ employee.name }} <a href="{{ venue.id }}/employee/{{ employee.id }}/edit-employee/"><small>edit</small></a> </td>
+                <td>{{ employee.name }}</td>
               <td>{{ employee.pin }} </td>
+                <td>
+                    <a href="{{ venue.id }}/employee/{{ employee.id }}/edit-employee/">
+                  <button type="button" class="btn btn-success" aria-label="Left Align">
+                                                                <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                                                edit
+                                                            </button>
+                  </a> </td>
           </tr>
           {% endif %}
                 {% endfor %}
@@ -84,76 +168,16 @@
         </a>
         </div>
       </div>
-
-
-<div class="panel-heading">
-        <h4 class="panel-title">
-          <a style="font-size:xx-large" data-toggle="collapse" data-parent="#accordion" href="#collapsemenu{{ venue.id }}">Menus</a>
-        </h4>
-      </div>
-      <div id="collapsemenu{{ venue.id }}" class="panel-collapse collapse in">
-        <div class="panel-body">
-
-        {% for menu in menus %}
-                {% if venue == menu.venue %}
-
-                        <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        <div class="panel-heading"><h4>Menu: {{ menu.name }}</h4><small><a href="menu/{{ menu.id }}/add-item"> edit</a></small></div>
-                        <div class="panel-body">
-                        <p>{{ menu.description }}</p>
-                        </div>
-                        <!-- Table -->
-                        <table class="table">
-                        <tr>
-                            <th>
-                                Name
-                            </th>
-                            <th>
-                                Category
-                            </th>
-                            <th>Price</th>
-                            <th></th>
-
-                        </tr>
-                            <tr>
-                                 {% for item in items %}
-                                    {% if item.menu == menu %}
-                                        <td> {{ item.name }}</td>
-                                        <td>
-                                            {% if item.category == 'beer' %}Beer{% endif %}
-                                            {% if item.category == 'wine' %}Wine{% endif %}
-                                            {% if item.category == 'mixed' %}Mixed Drink{% endif %}
-                                            {% if item.category == 'liquor' %}Hard Liquor{% endif %}
-                                            {% if item.category == 'soft' %}Soft Drink{% endif %}
-                                            {% if item.category == 'other' %}Other{% endif %}
-                                        </td>
-                                        <td>{{ item.get_price_formatted }}</td>
-                                        <td> <a href="{% url 'item_edit' menu.id item.id %}">edit</a></td>
-
-                            </tr>
-                                     {% endif %}
-                                 {% endfor %}
-                        </table>
-                        </div>
-                    <br>
-
-            {% endif %}
-            {% endfor %}
-
-                <a href="{% url 'menu_add' venue.id %}">
-                <button type="button" class="btn btn-success" aria-label="Left Align">
-             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add Menu
-                </button>
-                </a>
-            </ul>
-                </ul>
-            </ul>
             </div>
+</div>
+            </div>
+            </div>
+            </div>
+
+{% endfor %}
+
+
         </div>
-        {% endfor %}
-
-
     {% else %}
         <h4>You haven't registered any venues</h4>
     {% endif %}
@@ -164,4 +188,18 @@
  Add Venue
 </button>
    </a>
+
+<script>
+
+function toggleChevron(e) {
+    $(e.target)
+        .prev('.panel-heading')
+        .find("i.indicator")
+        .toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
+}
+$('#accordion').on('hidden.bs.collapse', toggleChevron);
+$('#accordion').on('shown.bs.collapse', toggleChevron);
+
+</script>
+
 {% endblock %}

@@ -1,9 +1,11 @@
 from django import forms
 from main.models import Venue
 
-class AddVenueForm(forms.ModelForm):
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Div, Submit, HTML, Button, Row, Field
+from crispy_forms.bootstrap import AppendedText, PrependedText, FormActions
 
+class AddVenueForm(forms.ModelForm):
     class Meta:
         model = Venue
-        fields = ('phone', 'name', 'address', 'description', 'website', 'hours', 'service_type')
-        
+        fields = ('name','address','phone', 'description', 'website', 'hours', 'service_type')

@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+{% load bootstrap %}
 {% block body %}
     <h1>Edit a venue</h1>
-    <div class="col-lg-1">
+    <div class="col-lg-7">
     <form action="{{ next }}" method="post">
         <div>
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|bootstrap}}
            <button type="submit" class="btn btn-success" aria-label="Left Align">
             <span class="glyphicon glyphicon-save" aria-hidden="true"></span>
             Save
