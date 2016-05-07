@@ -14,6 +14,8 @@ urlpatterns = [
     # GET - detailed venue info on one venue
     url(r'^api/venue_detail/(?P<venue_id>\d+)/$', venue.venue_detail,
         name='api_venue_detail'),
+    url(r'^api/venue_remove/(?P<venue_id>\d+)/$', venue.remove,
+        name='api_venue_remove'),
     # GET - list of all menus of a venue (not really going to be used probably)
     url(r'^api/(?P<venue_id>\d+)/menu_list/$', menu.menu_list,
         name='api_menu_list'),

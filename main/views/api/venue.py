@@ -23,3 +23,16 @@ def venue_list(request):
     venues = Venue.objects.all()
     serializer = VenueSerializer(venues, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+# removes a venue (for the venue owner only)
+@api_view(['GET'])
+def remove(request, venue_id):
+    try:
+        venue = Venue.objects.get(pk=venue_id)
+    except Venue.DoesNotExist:
+        return Response({"invalid": "true"})
+
+    if request.method == 'GET':
+        venue.delete()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
