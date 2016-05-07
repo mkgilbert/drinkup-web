@@ -17,11 +17,14 @@ function gotoUndelivered(venue_id) {
 {% block body %}
     <div>
     <h1 style="display: inline-block">Welcome, {{ user.username }}
-        <a href="edit-user/"><button type="button" class="btn btn-success btn-xs" aria-label="Left Align">
+        <a href="edit-user/" data-toggle="tooltip" title="edit user info"><button type="button" class="btn btn-success btn-xs" aria-label="Left Align">
         <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
         <!-- Button trigger modal -->
+        <a data-toggle="tooltip" title="delete account">
         <button type="button" class="btn btn-danger btn-xs" aria-label="Left Align" data-toggle="modal" data-target="#myModal">
-        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+        </button>
+        </a>
     </h1>
     </div>
 
@@ -58,7 +61,7 @@ function gotoUndelivered(venue_id) {
 
                 <div style="display: inline-block">
                 <h3 class="panel-title" style="font-weight: bold; font-size: xx-large" >{{ venue.name }} 
-                    <a  href="{{ venue.id }}/edit-venue/"><button type="button" class="btn btn-success btn-xs" aria-label="Left Align">
+                    <a  href="{{ venue.id }}/edit-venue/" data-toggle="tooltip" title="edit venue info"><button type="button" class="btn btn-success btn-xs" aria-label="Left Align">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button></a>
                 </h3>
                 
@@ -104,12 +107,12 @@ function gotoUndelivered(venue_id) {
                                 <!-- Default panel contents -->
                                 <div class="panel-heading">
                                    <h4>Menu: {{ menu.name }}
-                                       <a href="menu/{{ menu.id }}/edit-menu">
+                                       <a href="menu/{{ menu.id }}/edit-menu"  data-toggle="tooltip" title="edit menu properties">
                                        <button type="button" class="btn btn-success btn-xs" aria-label="Left Align">
                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> properties</button></a>
 
                                        <a href="menu/{{ menu.id }}/add-item">
-                                       <button type="button" class="btn btn-success btn-xs" aria-label="Left Align">
+                                       <button type="button" class="btn btn-success btn-xs" aria-label="Left Align"  data-toggle="tooltip" title="edit items in menu">
                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> items</button></a>
                                     </h4>
                                     
@@ -194,7 +197,7 @@ function gotoUndelivered(venue_id) {
                 <td>{{ employee.name }}</td>
               <td>{{ employee.pin }} </td>
                 <td>
-                    <a href="{{ venue.id }}/employee/{{ employee.id }}/edit-employee/">
+                    <a href="{{ venue.id }}/employee/{{ employee.id }}/edit-employee/" data-toggle="tooltip" title="edit employee info">
                   <button type="button" class="btn btn-success btn-xs" aria-label="Left Align">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                   </button>
