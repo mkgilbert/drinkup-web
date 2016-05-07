@@ -1,14 +1,17 @@
 {% extends "base.html" %}
+{% load bootstrap %}
 {% block body %}
     <h1>Add a menu</h1>
+    <div class="col-lg-5">
     <form action="{{ next }}" method="post">
         <div>
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|bootstrap }}
              <button type="submit" class="btn btn-success" aria-label="Left Align">
             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
             Add
             </button>
         </div>
     </form>
+    </div>
 {% endblock %}
