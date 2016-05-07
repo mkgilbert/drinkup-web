@@ -20,6 +20,8 @@ urlpatterns = [
     # GET - detailed menu info for a venue
     url(r'^api/(?P<venue_id>\d+)/menu_detail/$', menu.menu_detail,
         name='api_menu_detail'),
+    url(r'^api/(?P<venue_id>\d+)/menu_remove/(?P<menu_id>\d+)/$', menu.remove,
+        name='api_menu_remove'),
     url(r'^api/(?P<venue_id>\d+)/menu/remove_item/(?P<item_id>\d+)/$', item.remove,
     name='api_menu_item_remove'),
     # GET - detailed menu info
@@ -29,9 +31,11 @@ urlpatterns = [
     url(r'^api/(?P<venue_id>\d+)/order/(?P<cust_id>\d+)/$', order.order,
         name='api_order'),
     url(r'^api/(?P<venue_id>\d+)/employee_list/$', employee.employee_list,
-        name='api_order'),
+        name='api_employee_list'),
     url(r'^api/(?P<venue_id>\d+)/employee_detail/(?P<cust_id>\d+)/$', employee.employee_detail,
-        name='api_order'),
+        name='api_employee_detail'),
+    url(r'^api/(?P<venue_id>\d+)/employee_remove/(?P<emp_id>\d+)/$', employee.remove,
+        name='api_employee_remove'),
     url(r'^api/(?P<venue_id>\d+)/order_item/(?P<link_id>\d+)/$', item_order_link.order_item,
         name='api_order_item'),
     url(r'^api/(?P<venue_id>\d+)/complete_order/(?P<order_id>\d+)/$', order.complete_order,

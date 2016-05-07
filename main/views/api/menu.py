@@ -54,3 +54,16 @@ def menu_list(request, venue_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = MenuSerializer(menus, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+# removes a menu (for the venue owner only)
+@api_view(['GET'])
+def remove(request, venue_id, menu_id):
+    try:
+        menu = Menu.objects.get(pk=menu_id)
+    except Menu.DoesNotExist:
+        return Response({"invalid": "true"})
+
+    if request.method == 'GET':
+        menu.delete()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)

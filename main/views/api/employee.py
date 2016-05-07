@@ -40,3 +40,16 @@ def employee_list(request, emp_id):
         serializer = EmployeeSerializer(employees, many=True)
         return Response(serializer.data)
 
+# removes a menu (for the venue owner only)
+@api_view(['GET'])
+def remove(request, venue_id, emp_id):
+    try:
+        emp = Employee.objects.get(pk=emp_id)
+    except Employee.DoesNotExist:
+        return Response({"invalid": "true"})
+
+    if request.method == 'GET':
+        emp.delete()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
