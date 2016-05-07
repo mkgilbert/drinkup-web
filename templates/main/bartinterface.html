@@ -78,6 +78,7 @@
 
 var activeslide = -1;
 var elementarray = [];
+var timer = 0;
 
 function setActiveSlide(slideno){
     document.getElementsByName("slide"+slideno).className = "item active";
@@ -139,7 +140,7 @@ function getTimeDifference(dateInput){
                              dateInput.substring(14, 16), dateInput.substring(17, 19), 0);
     var timescale = "";
     var diffMins = Math.round((dateNow - dateOrder)/ 60000)+dateNow.getTimezoneOffset();
-
+    timer = diffMins;
     if(diffMins < 7){
         timescale = "new";
     } else if(diffMins >= 7 && diffMins < 14){
@@ -271,13 +272,14 @@ $.ajax({
             orderdetails += "\n\t\t<div class=\"item";
             if(data[i].id == activeslide){
                 orderdetails += "active";
-                orders+= " class=\"active\"><a onclick=\"\" href=\"#\">Order " + data[i].id + "</a></li>\n";
+                orders+= " class=\"active\"><a onclick=\"\" href=\"#\">Order " + data[i].id + " <small><small>" + timer + "m</small></small></a></li>\n";
             }
             else{
-                orders+= " class=\"" + getTimeDifference(data[i].time_created) + "\"><a onclick=\"setActiveSlide(" + data[i].id + ")\" href=\"#\">Order " + data[i].id + "</a></li>\n";
+                orders+= " class=\"" + getTimeDifference(data[i].time_created) + "\"><a onclick=\"setActiveSlide(" + data[i].id + ")\" href=\"#\">Order " + data[i].id + " <small><small>" + timer + "m</small></small></a></li>\n";
             }
 
             orderdetails += "\" id=\"slideInfo\" name=\"slide" + data[i].id + "\">\n<h3>Order: " + data[i].id + "</h3>";
+            orderdetails += "<h3>Order age: " + timer + " minutes old.</h3>";
 
             if(data[i].employee != null){
                 orderdetails += "<h3>Server: " + data[i].employee.name + "</h3>";
