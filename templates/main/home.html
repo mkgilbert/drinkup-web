@@ -39,10 +39,10 @@ function gotoUndelivered(venue_id) {
                     <button type="button" class="btn btn-warning btn-lg" onclick="gotoReports({{venue.id}})">
                         <span class="glyphicon glyphicon-stats" aria-hidden="true"></span> Reports
                     </button>
-                    <button type="button" class="btn btn-danger btn-lg" onclick="gotoBartinterface({{venue.id}})">
+                    <button type="button" class="btn btn-danger btn-lg" onclick="gotoUndelivered({{venue.id}})">
                         <span class="glyphicon glyphicon-tasks" aria-hidden="true"></span> Undelivered Orders
                     </button>
-                    <button type="button" class="btn btn-primary btn-lg" onclick="gotoUndelivered({{venue.id}})">
+                    <button type="button" class="btn btn-primary btn-lg" onclick="gotoBartinterface({{venue.id}})">
                         <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> Bartender Interface
                     </button>
                 </div>
