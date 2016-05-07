@@ -50,3 +50,9 @@ def user_edit(request):
     else:
         return HttpResponseRedirect('/user/home/edit-user/')
     return render(request, 'main/user_edit.html', {'form': form, 'venue': venue})
+
+@login_required()
+def user_delete(request):
+    user = request.user
+    user.delete()
+    return HttpResponseRedirect('/')
