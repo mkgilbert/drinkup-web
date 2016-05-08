@@ -3,7 +3,11 @@
 {% block body %}
     <div>
     <h1 style="display: inline-block">Welcome, {{ user.username }}</h1>
-    <a style="display: inline-block; padding-left: 1%" href="edit-user/"> edit</a>
+    <a style="display: inline-block; padding-left: 1%" href="edit-user/">
+        <button type="button" class="btn btn-success" aria-label="Left Align">
+            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+        </button>
+    </a>
     </div>
     {% if venues %}
         <h3>Registered Venues:</h3>
@@ -12,8 +16,13 @@
             <div class="panel-heading">
 
                 <div style="display: inline-block">
-                <h3 class="panel-title" style="font-weight: bold; font-size: xx-large" >{{ venue.name }} </h3>
-                <a  href="{{ venue.id }}/edit-venue/">edit</a>
+                <h3 class="panel-title" style="font-weight: bold; font-size: xx-large" >{{ venue.name }}
+                <a  href="{{ venue.id }}/edit-venue/">
+                    <button type="button" class="btn btn-success" aria-label="Left Align">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </button>
+                </a>
+                     </h3>
                     </div>
 
                 <a style="float: right; vertical-align: bottom;" href="{% url 'summary_report' venue.id %}">
@@ -60,18 +69,16 @@
 
                             <div class="panel panel-default">
                                 <!-- Default panel contents -->
-                                <div class="panel-heading"><h4>Menu: {{ menu.name }}</h4>
+                                <div class="panel-heading"><h4>Menu: {{ menu.name }}
                                     <a href="menu/{{ menu.id }}/add-item">
                                     <button type="button" class="btn btn-success" aria-label="Left Align">
                                                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                                                edit
                                                             </button>
                                     </a>
                                     <button type="button" class="btn btn-danger" aria-label="Left Align" onclick="deleteMenu({{ menu.id }},{{ venue.id }})">
                                                                 <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                                                                delete
                                                             </button>
-
+                                    </h4>
                                 </div>
                                     <div class="panel-body">
                                         <p>{{ menu.description }}</p>
@@ -105,7 +112,6 @@
                                                         <td> <a href="{% url 'item_edit' menu.id item.id %}">
                                                             <button type="button" class="btn btn-success" aria-label="Left Align">
                                                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                                                edit
                                                             </button>
                                                             </a></td>
                                                     </tr>
@@ -160,7 +166,6 @@
                     <a href="{{ venue.id }}/employee/{{ employee.id }}/edit-employee/">
                   <button type="button" class="btn btn-success" aria-label="Left Align">
                                                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                                                                edit
                                                             </button>
                   </a> </td>
           </tr>
@@ -217,7 +222,6 @@ function deleteMenu(menu_id, venue_id) {
                 messageDiv.innerHTML = "Item successfully deleted";
                 messageDiv.className = "alert alert-success";
                 console.log("deleted menu " + menu_id);
-                location.reload();
             },
             error: function() {
                 messageDiv.innerHTML = "something went wrong when deleting the item";
