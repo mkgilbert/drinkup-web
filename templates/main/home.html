@@ -67,6 +67,11 @@
                                                                 edit
                                                             </button>
                                     </a>
+                                    <button type="button" class="btn btn-danger" aria-label="Left Align" onclick="deleteMenu({{ menu.id }},{{ venue.id }})">
+                                                                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                                                delete
+                                                            </button>
+
                                 </div>
                                     <div class="panel-body">
                                         <p>{{ menu.description }}</p>
@@ -194,6 +199,33 @@
    </a>
 
 <script>
+
+
+function deleteMenu(menu_id, venue_id) {
+    var confirmed = confirm("Are you sure you want to delete this menu?");
+    var html = "";
+    var classes = "";
+    var messageDiv = document.getElementById('messages');
+    document.getElementById('django-messages').style = "display: none;";
+
+    if (confirmed) {
+        $.ajax({
+            url: '/api/' + venue_id + '/menu_remove/' + menu_id,
+            type: 'GET',
+            success: function()
+            {
+                messageDiv.innerHTML = "Item successfully deleted";
+                messageDiv.className = "alert alert-success";
+                console.log("deleted menu " + menu_id);
+                location.reload();
+            },
+            error: function() {
+                messageDiv.innerHTML = "something went wrong when deleting the item";
+                messageDiv.className = "alert alert-danger";
+            }
+        });
+    }
+}
 
 function toggleChevron(e) {
     $(e.target)
