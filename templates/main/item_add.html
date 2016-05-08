@@ -1,10 +1,7 @@
 {% extends "base.html" %}
 {% block bodyattributes %}onload="doOnce()"{% endblock %}
-{% block body %}
-{% load bootstrap %}
-
+{% block head %}
 <script type="text/javascript">
-
 function doOnce(){
 $.ajax({
     url : '/api/menu_listoff/' + {{menu.id}} + '/?format=json',
@@ -51,18 +48,20 @@ $.ajax({
                 text += "<td>$" + items[i].price.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,') + "<td>";
 
                 text += "<div class=\"btn-group\" role=\"group\" aria-label=\"...\">";
-                text += "<button type=\"button\" data-toggle=\"tooltip\" title=\"edit item info\" class=\"btn btn-success btn-xs\" aria-label=\"Left Align\" onclick=\"editItem("+ items[i].id + ")\">"+
+                text += "<button type=\"button\" data-container=\"body\" data-toggle=\"tooltip\" title=\"edit item info\" class=\"btn btn-success btn-xs\" aria-label=\"Left Align\" onclick=\"editItem("+ items[i].id + ")\">"+
                         "<span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span>"+
                         ""+"</button>";
 
 
-                text += "<button type=\"button\" data-toggle=\"tooltip\" title=\"delete item\" class=\"pull-right btn btn-danger btn-xs\"";
+                text += "<button type=\"button\" data-container=\"body\" data-toggle=\"tooltip\" title=\"delete item\" class=\"pull-right btn btn-danger btn-xs\"";
                 text += "onclick=\"deleteItem("+ items[i].id + ")\">  <span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span></button></div></td></tr>";
             }
             text += "</table>";
         }
         document.getElementById("demo").innerHTML = text;
 
+        $(function(){ $(".btn-xs").tooltip(); });
+        $('[rel=tooltip]').tooltip({container: 'body'});
         console.log(items);
     }
 });
@@ -105,7 +104,9 @@ function deleteItem(item_id) {
 }
 
 </script>
-
+{% endblock %}
+{% block body %}
+{% load bootstrap %}
     <!------ Begin html content ---->
     <div id="messages" role="alert"></div>
     {% if items %}
